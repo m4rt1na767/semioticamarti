@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semiotica — Studio Attivo · UniTo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0d;
+    --paper: #f5f2ed;
+    --cream: #ede9e2;
+    --warm-mid: #c8bfae;
+    --accent: #c0392b;
+    --accent2: #2c5f8a;
+    --accent3: #2d7d46;
+    --gold: #b8860b;
+    --surface: #ffffff;
+    --surface2: #faf8f5;
+    --border: #ddd8cf;
+    --text-muted: #7a7268;
+    --shadow: 0 2px 12px rgba(15,14,13,.08);
+    --shadow-lg: 0 8px 32px rgba(15,14,13,.12);
+    --radius: 10px;
+    --radius-lg: 16px;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--accent);
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+  }
+  .header-logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    letter-spacing: -.01em;
+    color: var(--paper);
+  }
+  .header-logo span { color: var(--accent); }
+  .header-badge {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    padding: 2px 8px;
+    border-radius: 20px;
+    color: var(--warm-mid);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .header-meta {
+    font-size: .75rem;
+    color: var(--warm-mid);
+    font-family: var(--font-mono);
+  }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    padding: 0 1.5rem;
+    gap: 0;
+    position: sticky;
+    top: 56px;
+    z-index: 99;
+    box-shadow: var(--shadow);
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .85rem 1.25rem;
+    font-size: .8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color .2s, border-color .2s;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    font-family: var(--font-body);
+  }
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-tab .tab-icon { font-size: 1rem; }
+
+  /* ── SECTIONS ── */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .page-wrap { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  .section-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.25rem;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .section-title span { color: var(--accent); }
+  .section-subtitle {
+    margin-top: .4rem;
+    color: var(--text-muted);
+    font-size: .875rem;
+    font-weight: 300;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: .75rem;
+  }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  @media (max-width: 768px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* ════════════════════════════════════════
+     §1 — MAPPE CONCETTUALI
+  ════════════════════════════════════════ */
+
+  .map-toolbar {
+    display: flex; flex-wrap: wrap; gap: .75rem; align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .btn {
+    font-family: var(--font-body);
+    font-size: .8rem;
+    font-weight: 500;
+    padding: .5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    background: var(--surface);
+    color: var(--ink);
+    transition: all .15s;
+    letter-spacing: .02em;
+  }
+  .btn:hover { background: var(--cream); border-color: var(--warm-mid); }
+  .btn-primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .btn-primary:hover { background: #2a2826; }
+  .btn-danger { background: var(--accent); color: white; border-color: var(--accent); }
+  .btn-accent2 { background: var(--accent2); color: white; border-color: var(--accent2); }
+
+  /* Quadrato Semiotico */
+  .quadrato-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+  }
+  .quadrato-title {
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    margin-bottom: 1.75rem;
+    color: var(--ink);
+  }
+  .quadrato-title small {
+    display: block;
+    font-size: .8rem;
+    font-family: var(--font-body);
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: .25rem;
+  }
+  .quadrato-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 0;
+    max-width: 660px;
+    margin: 0 auto;
+  }
+  .q-node {
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    text-align: center;
+    transition: border-color .2s, box-shadow .2s;
+    margin: .5rem;
+  }
+  .q-node:hover { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(192,57,43,.1); }
+  .q-node.s1 { border-color: var(--accent); }
+  .q-node.s2 { border-color: var(--accent2); }
+  .q-node.non-s2 { border-color: var(--accent3); }
+  .q-node.non-s1 { border-color: var(--gold); }
+  .q-node-label {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-muted);
+    margin-bottom: .4rem;
+  }
+  .q-node.s1 .q-node-label { color: var(--accent); }
+  .q-node.s2 .q-node-label { color: var(--accent2); }
+  .q-node.non-s2 .q-node-label { color: var(--accent3); }
+  .q-node.non-s1 .q-node-label { color: var(--gold); }
+  .q-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--ink);
+    outline: none;
+  }
+  .q-input::placeholder { color: var(--warm-mid); font-style: italic; }
+  .q-relations {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .q-rel-badge {
+    font-size: .72rem;
+    font-family: var(--font-mono);
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+  .q-rel-badge.contrari { border-color: var(--accent); color: var(--accent); background: rgba(192,57,43,.06); }
+  .q-rel-badge.subcontrari { border-color: var(--accent2); color: var(--accent2); background: rgba(44,95,138,.06); }
+  .q-rel-badge.deittici { border-color: var(--accent3); color: var(--accent3); background: rgba(45,125,70,.06); }
+
+  .q-arrows-svg {
+    width: 100%; height: 40px;
+    grid-column: 1 / -1;
+    overflow: visible;
+  }
+
+  /* Mappa Nodi */
+  .nodes-canvas {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    min-height: 320px;
+    position: relative;
+    overflow: hidden;
+  }
+  .node-card {
+    position: absolute;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: .9rem 1rem;
+    min-width: 160px;
+    max-width: 220px;
+    cursor: grab;
+    box-shadow: var(--shadow);
+    user-select: none;
+    transition: box-shadow .15s;
+    z-index: 2;
+  }
+  .node-card:active { cursor: grabbing; box-shadow: var(--shadow-lg); }
+  .node-card.concept { border-left: 3px solid var(--accent); }
+  .node-card.definition { border-left: 3px solid var(--accent2); }
+  .node-card.example { border-left: 3px solid var(--accent3); }
+  .node-type {
+    font-size: .6rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-muted);
+    margin-bottom: .3rem;
+  }
+  .node-text {
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .node-desc {
+    font-size: .75rem;
+    color: var(--text-muted);
+    margin-top: .3rem;
+    line-height: 1.4;
+    font-style: italic;
+  }
+  .node-del {
+    position: absolute;
+    top: .4rem; right: .4rem;
+    background: none; border: none;
+    color: var(--warm-mid);
+    cursor: pointer;
+    font-size: .75rem;
+    line-height: 1;
+    padding: 2px 5px;
+    border-radius: 4px;
+    transition: color .15s, background .15s;
+  }
+  .node-del:hover { color: var(--accent); background: rgba(192,57,43,.08); }
+
+  .add-node-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: .75rem;
+    align-items: end;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 768px) { .add-node-form { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: .3rem; }
+  .form-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-family: var(--font-mono); }
+  .form-input, .form-select {
+    padding: .5rem .75rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: .85rem;
+    background: var(--surface);
+    color: var(--ink);
+    outline: none;
+    transition: border-color .15s;
+  }
+  .form-input:focus, .form-select:focus { border-color: var(--accent); }
+
+  /* ════════════════════════════════════════
+     §2 — QUIZ & FLASHCARD
+  ════════════════════════════════════════ */
+
+  /* Flashcard */
+  .flashcard-controls {
+    display: flex; flex-wrap: wrap; gap: .75rem; align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .fc-filter-group { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .fc-filter-btn {
+    font-size: .75rem;
+    padding: .35rem .8rem;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .15s;
+    font-family: var(--font-body);
+  }
+  .fc-filter-btn.active, .fc-filter-btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .flashcard-arena {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .flashcard-counter {
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    color: var(--text-muted);
+    letter-spacing: .05em;
+  }
+  .flashcard-scene {
+    width: 100%;
+    max-width: 560px;
+    height: 280px;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+  .flashcard-inner {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform .55s cubic-bezier(.4,0,.2,1);
+  }
+  .flashcard-inner.flipped { transform: rotateY(180deg); }
+  .flashcard-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+  }
+  .flashcard-front {
+    background: var(--ink);
+    color: var(--paper);
+    border: 2px solid var(--ink);
+  }
+  .flashcard-back {
+    background: var(--surface);
+    color: var(--ink);
+    border: 2px solid var(--accent);
+    transform: rotateY(180deg);
+  }
+  .fc-chapter-tag {
+    font-size: .65rem;
+    font-family: var(--font-mono);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    opacity: .5;
+    margin-bottom: .75rem;
+  }
+  .fc-question {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    line-height: 1.3;
+    font-style: italic;
+  }
+  .fc-hint {
+    margin-top: .75rem;
+    font-size: .72rem;
+    opacity: .4;
+    font-family: var(--font-mono);
+  }
+  .fc-answer {
+    font-size: .9rem;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  .fc-example {
+    margin-top: .75rem;
+    font-size: .78rem;
+    color: var(--accent);
+    border-left: 2px solid var(--accent);
+    padding-left: .75rem;
+    text-align: left;
+    line-height: 1.5;
+  }
+  .flashcard-nav {
+    display: flex; gap: 1rem; align-items: center;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    width: 100%; max-width: 560px;
+    background: var(--cream);
+    border-radius: 20px;
+    height: 4px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 20px;
+    transition: width .3s ease;
+  }
+
+  /* Quiz */
+  .quiz-wrap { max-width: 680px; margin: 0 auto; }
+  .quiz-progress-info {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1rem;
+    font-size: .78rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+  }
+  .quiz-score-badge {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: .7rem;
+  }
+  .quiz-question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+  }
+  .quiz-q-num {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: .5rem;
+  }
+  .quiz-q-text {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    line-height: 1.4;
+    margin-bottom: 1.25rem;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: .65rem; }
+  .quiz-option {
+    padding: .85rem 1.1rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: .875rem;
+    transition: all .15s;
+    background: var(--surface2);
+    color: var(--ink);
+    text-align: left;
+    font-family: var(--font-body);
+    line-height: 1.4;
+  }
+  .quiz-option:hover:not(:disabled) { border-color: var(--accent); background: rgba(192,57,43,.04); }
+  .quiz-option.correct { background: rgba(45,125,70,.1); border-color: var(--accent3); color: var(--accent3); }
+  .quiz-option.wrong { background: rgba(192,57,43,.08); border-color: var(--accent); color: var(--accent); }
+  .quiz-option.reveal { background: rgba(45,125,70,.06); border-color: var(--accent3); }
+  .quiz-option:disabled { cursor: default; }
+  .quiz-feedback {
+    background: var(--cream);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: .9rem 1.1rem;
+    font-size: .84rem;
+    line-height: 1.55;
+    color: var(--ink);
+    display: none;
+    margin-top: .75rem;
+  }
+  .quiz-feedback.visible { display: block; }
+  .quiz-feedback strong { color: var(--accent2); }
+  .quiz-result-screen {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    display: none;
+  }
+  .quiz-result-score {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    color: var(--accent);
+    line-height: 1;
+    margin: 1rem 0;
+  }
+  .quiz-result-msg { color: var(--text-muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+  /* ════════════════════════════════════════
+     §3 — NARRATIVE DECODER
+  ════════════════════════════════════════ */
+
+  .decoder-stepper {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .step-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: .9rem .5rem;
+    font-size: .72rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-muted);
+    border-right: 1px solid var(--border);
+    transition: background .2s, color .2s;
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.3;
+    gap: .3rem;
+  }
+  .step-item:last-child { border-right: none; }
+  .step-item.active { background: var(--ink); color: var(--paper); }
+  .step-item.done { background: var(--cream); color: var(--accent3); }
+  .step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem;
+    font-weight: 600;
+    border: 1.5px solid currentColor;
+    flex-shrink: 0;
+  }
+  .step-item.active .step-num { background: var(--accent); border-color: var(--accent); color: white; }
+  .step-item.done .step-num { background: var(--accent3); border-color: var(--accent3); color: white; }
+
+  .decoder-step { display: none; }
+  .decoder-step.active { display: block; }
+
+  /* Text selection */
+  .text-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  @media (max-width: 768px) { .text-cards-grid { grid-template-columns: 1fr; } }
+  .text-choice-card {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: border-color .2s, box-shadow .2s, transform .15s;
+  }
+  .text-choice-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .text-choice-card.selected { border-color: var(--accent); background: rgba(192,57,43,.03); }
+  .text-choice-label {
+    font-family: var(--font-mono);
+    font-size: .6rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent);
+    margin-bottom: .5rem;
+  }
+  .text-choice-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: .5rem;
+  }
+  .text-choice-preview {
+    font-size: .78rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    font-style: italic;
+  }
+  .text-full-display {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 1.25rem 1.5rem;
+    font-size: .88rem;
+    line-height: 1.7;
+    margin-top: 1rem;
+    display: none;
+    font-style: italic;
+  }
+  .text-full-display.visible { display: block; }
+
+  /* Attanti */
+  .attanti-schema {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 1rem;
+    max-width: 700px;
+    margin: 0 auto 1.5rem;
+  }
+  @media (max-width: 600px) { .attanti-schema { grid-template-columns: 1fr 1fr; } }
+  .attante-slot {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    transition: border-color .2s;
+  }
+  .attante-slot.filled { border-color: var(--accent2); background: rgba(44,95,138,.04); }
+  .attante-name {
+    font-family: var(--font-mono);
+    font-size: .62rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-muted);
+    margin-bottom: .35rem;
+  }
+  .attante-select {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: .4rem .6rem;
+    font-family: var(--font-body);
+    font-size: .82rem;
+    background: var(--surface);
+    color: var(--ink);
+    outline: none;
+  }
+  .attante-role-desc {
+    font-size: .68rem;
+    color: var(--text-muted);
+    margin-top: .4rem;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* Schema canonico */
+  .schema-canonico {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  @media (max-width: 640px) { .schema-canonico { grid-template-columns: 1fr 1fr; } }
+  .fase-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    position: relative;
+  }
+  .fase-card::after {
+    content: '→';
+    position: absolute;
+    right: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--warm-mid);
+    font-size: .85rem;
+    pointer-events: none;
+  }
+  .fase-card:last-child::after { display: none; }
+  .fase-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .72rem;
+    font-weight: 600;
+    background: var(--ink);
+    color: var(--paper);
+    margin-bottom: .5rem;
+    font-family: var(--font-mono);
+  }
+  .fase-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: .4rem;
+  }
+  .fase-desc-label {
+    font-size: .68rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    margin-bottom: .3rem;
+  }
+  .fase-textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: .4rem .6rem;
+    font-family: var(--font-body);
+    font-size: .78rem;
+    background: var(--surface2);
+    color: var(--ink);
+    resize: none;
+    height: 70px;
+    outline: none;
+    transition: border-color .15s;
+    line-height: 1.4;
+  }
+  .fase-textarea:focus { border-color: var(--accent2); }
+
+  /* Report */
+  .report-section { margin-bottom: 1.5rem; }
+  .report-section-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: .75rem;
+    padding-bottom: .4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .report-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: .6rem;
+    font-size: .84rem;
+    align-items: flex-start;
+  }
+  .report-row-label {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--text-muted);
+    min-width: 110px;
+    padding-top: .1rem;
+  }
+  .report-row-user { flex: 1; }
+  .report-row-correct {
+    flex: 1;
+    color: var(--accent3);
+    font-weight: 500;
+  }
+  .report-match {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .65rem;
+    flex-shrink: 0;
+    margin-top: .1rem;
+  }
+  .report-match.ok { background: rgba(45,125,70,.15); color: var(--accent3); }
+  .report-match.fail { background: rgba(192,57,43,.12); color: var(--accent); }
+  .report-theory-box {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    font-size: .84rem;
+    line-height: 1.65;
+    margin-top: 1rem;
+  }
+  .report-theory-box h4 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    margin-bottom: .5rem;
+    color: var(--warm-mid);
+  }
+
+  /* ── SLIDE VIEWER ── */
+  .slide-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+  }
+  .slide-upload-area:hover, .slide-upload-area.drag-over { border-color: var(--accent); background: rgba(192,57,43,.03); }
+  .upload-icon { font-size: 2.5rem; margin-bottom: .75rem; }
+  .upload-title { font-family: var(--font-display); font-size: 1.4rem; margin-bottom: .4rem; }
+  .upload-sub { font-size: .8rem; color: var(--text-muted); }
+  #file-input { display: none; }
+  .slide-notes-area {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: .75rem 1rem;
+    font-family: var(--font-body);
+    font-size: .85rem;
+    min-height: 120px;
+    resize: vertical;
+    background: var(--surface);
+    outline: none;
+    margin-top: 1rem;
+    line-height: 1.6;
+  }
+  .slide-notes-area:focus { border-color: var(--accent); }
+  .files-list { margin-top: 1rem; display: flex; flex-direction: column; gap: .5rem; }
+  .file-item {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .65rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: .83rem;
+  }
+  .file-icon { color: var(--accent); font-size: 1rem; }
+  .file-name { flex: 1; }
+  .file-size { color: var(--text-muted); font-size: .75rem; font-family: var(--font-mono); }
+  .file-del { color: var(--text-muted); cursor: pointer; background: none; border: none; font-size: .85rem; }
+  .file-del:hover { color: var(--accent); }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section.active .page-wrap { animation: fadeInUp .35s ease; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--warm-mid); border-radius: 3px; }
+
+  /* Utility */
+  .mt-1 { margin-top: .5rem; }
+  .mt-2 { margin-top: 1rem; }
+  .mt-3 { margin-top: 1.5rem; }
+  .mb-1 { margin-bottom: .5rem; }
+  .mb-2 { margin-bottom: 1rem; }
+  .text-center { text-align: center; }
+  .text-muted { color: var(--text-muted); font-size: .82rem; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+  .tag {
+    display: inline-block;
+    font-size: .65rem;
+    font-family: var(--font-mono);
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    margin-right: .3rem;
+    margin-bottom: .3rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="header">
+  <div class="header-brand">
+    <div class="header-logo">Semi<span>·</span>otica</div>
+    <div class="header-badge">UniTo · Santangelo</div>
+  </div>
+  <div class="header-meta">Scienze della Comunicazione</div>
+</header>
+
+<!-- ── NAV ── -->
+<nav class="nav-tabs" id="mainNav">
+  <button class="nav-tab active" data-tab="slides">
+    <span class="tab-icon">📄</span> Slide & Note
+  </button>
+  <button class="nav-tab" data-tab="mappe">
+    <span class="tab-icon">🔲</span> Mappe Concettuali
+  </button>
+  <button class="nav-tab" data-tab="quiz">
+    <span class="tab-icon">🃏</span> Flashcard & Quiz
+  </button>
+  <button class="nav-tab" data-tab="decoder">
+    <span class="tab-icon">🔬</span> Narrative Decoder
+  </button>
+</nav>
+
+<!-- ══════════════════════════════════════════
+  §0 — SLIDE & NOTE
+══════════════════════════════════════════ -->
+<section class="section active" id="tab-slides">
+<div class="page-wrap">
+  <div class="section-header">
+    <h1 class="section-title">Slide <span>&</span> Note</h1>
+    <p class="section-subtitle">Carica i materiali del corso e aggiungi le tue annotazioni per ogni lezione</p>
+  </div>
+  <div class="grid-2" style="align-items:start;">
+    <div>
+      <div class="slide-upload-area" id="uploadArea" onclick="document.getElementById('file-input').click()">
+        <div class="upload-icon">📚</div>
+        <div class="upload-title">Carica le slide</div>
+        <div class="upload-sub">PDF, PPT, PPTX — trascina qui o clicca per selezionare</div>
+        <input type="file" id="file-input" accept=".pdf,.ppt,.pptx" multiple>
+      </div>
+      <div class="files-list" id="filesList"></div>
+    </div>
+    <div>
+      <div class="card" style="height:100%;">
+        <div class="card-title" style="font-size:1.1rem;">📝 Le mie Annotazioni</div>
+        <div class="text-muted mb-1">Capitolo / Lezione di riferimento:</div>
+        <input type="text" class="form-input" id="noteChapter" placeholder="es. Segni — Peirce vs Saussure" style="width:100%;margin-bottom:.75rem;">
+        <textarea class="slide-notes-area" id="notesArea" placeholder="Scrivi qui i tuoi appunti, le connessioni tra concetti, le domande da approfondire…"></textarea>
+        <div style="display:flex;gap:.75rem;margin-top:.75rem;">
+          <button class="btn btn-primary" onclick="saveNote()">Salva nota</button>
+          <button class="btn" onclick="clearNote()">Cancella</button>
+        </div>
+        <div id="savedNotes" style="margin-top:1rem;display:flex;flex-direction:column;gap:.5rem;"></div>
+      </div>
+    </div>
+  </div>
+  <hr class="divider">
+  <div class="card mt-2">
+    <div class="card-title">🗂 Mappa dei Capitoli del Corso</div>
+    <div class="grid-3 mt-2">
+      <div style="border:1px solid var(--border);border-radius:var(--radius);padding:1rem;border-left:3px solid var(--accent);">
+        <div class="tag">Cap. 1</div>
+        <div style="font-weight:600;font-size:.9rem;margin:.3rem 0 .4rem;">I Segni</div>
+        <div style="font-size:.75rem;color:var(--text-muted);line-height:1.5;">Saussure, Peirce, segno/segnale, significante/significato, type/token, icone/indici/simboli</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:var(--radius);padding:1rem;border-left:3px solid var(--accent2);">
+        <div class="tag">Cap. 2</div>
+        <div style="font-weight:600;font-size:.9rem;margin:.3rem 0 .4rem;">Strutture</div>
+        <div style="font-size:.75rem;color:var(--text-muted);line-height:1.5;">Codice, langue/parole, arbitrarietà, valore differenziale, equisomiglianza, semisimbolismo</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:var(--radius);padding:1rem;border-left:3px solid var(--accent3);">
+        <div class="tag">Cap. 3</div>
+        <div style="font-weight:600;font-size:.9rem;margin:.3rem 0 .4rem;">Narrazione</div>
+        <div style="font-size:.75rem;color:var(--text-muted);line-height:1.5;">Greimas, Propp, attanti, schema canonico, quadrato semiotico, percorso generativo</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:var(--radius);padding:1rem;border-left:3px solid var(--gold);">
+        <div class="tag">Cap. 4</div>
+        <div style="font-weight:600;font-size:.9rem;margin:.3rem 0 .4rem;">Enunciazione</div>
+        <div style="font-size:.75rem;color:var(--text-muted);line-height:1.5;">Enunciato/enunciazione, débrayage/embrayage, io-qui-ora, tempo e spazio enunciazionale</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:var(--radius);padding:1rem;border-left:3px solid #8e44ad;">
+        <div class="tag">Cap. 5</div>
+        <div style="font-weight:600;font-size:.9rem;margin:.3rem 0 .4rem;">Interpretazione</div>
+        <div style="font-size:.75rem;color:var(--text-muted);line-height:1.5;">Eco, semiosi illimitata, enciclopedia, deduzione/induzione/abduzione, lettore modello</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:var(--radius);padding:1rem;border-left:3px solid #16a085;">
+        <div class="tag">Cap. 6</div>
+        <div style="font-weight:600;font-size:.9rem;margin:.3rem 0 .4rem;">Comunicazione</div>
+        <div style="font-size:.75rem;color:var(--text-muted);line-height:1.5;">Pragmatica, atti linguistici, contesto, rumore, ridondanza, modelli della comunicazione</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  §1 — MAPPE CONCETTUALI
+══════════════════════════════════════════ -->
+<section class="section" id="tab-mappe">
+<div class="page-wrap">
+  <div class="section-header">
+    <h1 class="section-title">Mappe <span>Concettuali</span></h1>
+    <p class="section-subtitle">Visualizza le relazioni tra concetti e usa il Quadrato Semiotico interattivo di Greimas</p>
+  </div>
+
+  <!-- QUADRATO SEMIOTICO -->
+  <div class="quadrato-wrap">
+    <div class="quadrato-title">
+      Il Quadrato Semiotico di Greimas
+      <small>Inserisci i quattro termini per articolare la categoria semantica del testo</small>
+    </div>
+
+    <!-- Preset selector -->
+    <div style="text-align:center;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;">
+      <span style="font-size:.75rem;color:var(--text-muted);font-family:var(--font-mono);align-self:center;">ESEMPI PREIMPOSTATI →</span>
+      <button class="btn" onclick="loadPreset('identita')">Identità (Shrek)</button>
+      <button class="btn" onclick="loadPreset('natura')">Natura/Cultura</button>
+      <button class="btn" onclick="loadPreset('bianco')">Bianco/Nero</button>
+      <button class="btn btn-danger" onclick="clearPreset()">Azzera</button>
+    </div>
+
+    <div class="quadrato-grid">
+      <!-- Row 1: S1 + S2 -->
+      <div class="q-node s1">
+        <div class="q-node-label">S1 — Termine A (+)</div>
+        <input class="q-input" id="q-s1" type="text" placeholder="es. Essere se stessi">
+        <div style="font-size:.7rem;color:var(--text-muted);margin-top:.3rem;font-style:italic;" id="q-s1-ex"></div>
+      </div>
+      <div class="q-node s2">
+        <div class="q-node-label">S2 — Contrario (−)</div>
+        <input class="q-input" id="q-s2" type="text" placeholder="es. Essere come gli altri">
+        <div style="font-size:.7rem;color:var(--text-muted);margin-top:.3rem;font-style:italic;" id="q-s2-ex"></div>
+      </div>
+
+      <!-- Relations row -->
+      <div class="q-relations">
+        <span class="q-rel-badge contrari">←— Contrarietà —→</span>
+        <span class="q-rel-badge subcontrari">←— Sub-contrarietà —→</span>
+        <span class="q-rel-badge deittici">↕ Negazione / Implicazione ↕</span>
+      </div>
+
+      <!-- Row 3: non-S2 + non-S1 -->
+      <div class="q-node non-s2">
+        <div class="q-node-label">non-S2 — Neg. Contrario (+/−)</div>
+        <input class="q-input" id="q-ns2" type="text" placeholder="es. Non essere come gli altri">
+        <div style="font-size:.7rem;color:var(--text-muted);margin-top:.3rem;font-style:italic;" id="q-ns2-ex"></div>
+      </div>
+      <div class="q-node non-s1">
+        <div class="q-node-label">non-S1 — Neg. A (−/+)</div>
+        <input class="q-input" id="q-ns1" type="text" placeholder="es. Non essere se stessi">
+        <div style="font-size:.7rem;color:var(--text-muted);margin-top:.3rem;font-style:italic;" id="q-ns1-ex"></div>
+      </div>
+    </div>
+
+    <!-- Topic/Focus input -->
+    <div style="max-width:660px;margin:1.25rem auto 0;display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="form-group">
+        <label class="form-label">Topic (campo semantico)</label>
+        <input type="text" class="form-input" id="q-topic" placeholder="es. Identità">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Focus (risposta del testo)</label>
+        <input type="text" class="form-input" id="q-focus" placeholder="es. Meglio essere se stessi…">
+      </div>
+    </div>
+    <div style="max-width:660px;margin:.75rem auto 0;text-align:center;">
+      <div id="q-output" style="background:var(--cream);border-radius:var(--radius);padding:.75rem 1rem;font-size:.82rem;color:var(--text-muted);display:none;"></div>
+      <button class="btn btn-primary mt-1" onclick="generateQOutput()">Genera lettura del quadrato</button>
+    </div>
+  </div>
+
+  <!-- MAPPA NODI LIBERI -->
+  <div class="card">
+    <div class="card-title">Mappa Concetti Libera</div>
+    <p class="text-muted mb-2">Aggiungi nodi (Concetto → Definizione → Esempio) e trascinali nella mappa</p>
+
+    <div class="add-node-form">
+      <div class="form-group">
+        <label class="form-label">Tipo</label>
+        <select class="form-select" id="node-type">
+          <option value="concept">Concetto</option>
+          <option value="definition">Definizione</option>
+          <option value="example">Esempio</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nome/Titolo</label>
+        <input type="text" class="form-input" id="node-title" placeholder="es. Semiosi illimitata">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descrizione</label>
+        <input type="text" class="form-input" id="node-desc" placeholder="es. concatenazione infinita di interpretanti">
+      </div>
+      <button class="btn btn-primary" onclick="addNode()">+ Aggiungi</button>
+    </div>
+
+    <div class="nodes-canvas" id="nodesCanvas">
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;" id="canvasEmpty">
+        <div style="text-align:center;color:var(--warm-mid);">
+          <div style="font-size:2rem;margin-bottom:.5rem;">◻</div>
+          <div style="font-size:.8rem;font-family:var(--font-mono);">Aggiungi nodi per iniziare la mappa</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.75rem;margin-top:.75rem;flex-wrap:wrap;">
+      <span class="tag" style="border-color:var(--accent);color:var(--accent);">■ Concetto</span>
+      <span class="tag" style="border-color:var(--accent2);color:var(--accent2);">■ Definizione</span>
+      <span class="tag" style="border-color:var(--accent3);color:var(--accent3);">■ Esempio</span>
+      <button class="btn btn-danger" style="margin-left:auto;" onclick="clearNodes()">Cancella tutto</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  §2 — FLASHCARD & QUIZ
+══════════════════════════════════════════ -->
+<section class="section" id="tab-quiz">
+<div class="page-wrap">
+  <div class="section-header">
+    <h1 class="section-title">Flashcard <span>&</span> Quiz</h1>
+    <p class="section-subtitle">Studio attivo con flashcard animabili e quiz a ragionamento semiotico</p>
+  </div>
+
+  <!-- Sub-tabs -->
+  <div style="display:flex;gap:.5rem;margin-bottom:1.5rem;">
+    <button class="btn btn-primary" id="subtab-fc-btn" onclick="switchSubTab('fc')">🃏 Flashcard</button>
+    <button class="btn" id="subtab-qz-btn" onclick="switchSubTab('qz')">📝 Quiz</button>
+  </div>
+
+  <!-- FLASHCARD PANEL -->
+  <div id="panel-fc">
+    <div class="flashcard-controls">
+      <span style="font-size:.8rem;font-weight:500;">Filtra per capitolo:</span>
+      <div class="fc-filter-group" id="fcFilters">
+        <button class="fc-filter-btn active" data-ch="all">Tutti</button>
+        <button class="fc-filter-btn" data-ch="segni">Segni</button>
+        <button class="fc-filter-btn" data-ch="strutture">Strutture</button>
+        <button class="fc-filter-btn" data-ch="narrazione">Narrazione</button>
+        <button class="fc-filter-btn" data-ch="enunciazione">Enunciazione</button>
+        <button class="fc-filter-btn" data-ch="interpretazione">Interpretazione</button>
+      </div>
+    </div>
+
+    <div class="flashcard-arena">
+      <div class="progress-wrap"><div class="progress-bar" id="fcProgress"></div></div>
+      <div class="flashcard-counter" id="fcCounter">1 / 12</div>
+      <div class="flashcard-scene" onclick="flipCard()">
+        <div class="flashcard-inner" id="fcInner">
+          <div class="flashcard-face flashcard-front">
+            <div class="fc-chapter-tag" id="fcChapterTag">Capitolo</div>
+            <div class="fc-question" id="fcQuestion">Caricamento…</div>
+            <div class="fc-hint">clicca per girare la card</div>
+          </div>
+          <div class="flashcard-face flashcard-back">
+            <div class="fc-chapter-tag" id="fcChapterTagB"></div>
+            <div class="fc-answer" id="fcAnswer"></div>
+            <div class="fc-example" id="fcExample"></div>
+          </div>
+        </div>
+      </div>
+      <div class="flashcard-nav">
+        <button class="btn" onclick="fcNav(-1)">← Precedente</button>
+        <button class="btn btn-primary" onclick="fcNav(1)">Successiva →</button>
+        <button class="btn" onclick="shuffleCards()">🔀 Mescola</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ PANEL -->
+  <div id="panel-qz" style="display:none;">
+    <div class="quiz-wrap">
+      <div id="quizMain">
+        <div class="quiz-progress-info">
+          <span id="quizProgressTxt">Domanda 1 di 8</span>
+          <span class="quiz-score-badge" id="quizScoreBadge">Punti: 0</span>
+        </div>
+        <div class="progress-wrap" style="margin-bottom:1.5rem;max-width:100%;"><div class="progress-bar" id="quizProgress" style="width:12.5%"></div></div>
+        <div class="quiz-question-card">
+          <div class="quiz-q-num" id="quizQNum">DOMANDA 01</div>
+          <div class="quiz-q-text" id="quizQText">Caricamento…</div>
+          <div class="quiz-options" id="quizOptions"></div>
+          <div class="quiz-feedback" id="quizFeedback"></div>
+        </div>
+        <div style="text-align:right;margin-top:.75rem;">
+          <button class="btn btn-primary" id="quizNextBtn" style="display:none;" onclick="nextQuestion()">Prossima →</button>
+        </div>
+      </div>
+      <div class="quiz-result-screen" id="quizResult">
+        <div style="font-size:3rem;">🏆</div>
+        <div class="quiz-result-score" id="resultScore"></div>
+        <div class="quiz-result-msg" id="resultMsg"></div>
+        <button class="btn btn-primary" onclick="restartQuiz()">Ricomincia il quiz</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  §3 — NARRATIVE DECODER
+══════════════════════════════════════════ -->
+<section class="section" id="tab-decoder">
+<div class="page-wrap">
+  <div class="section-header">
+    <h1 class="section-title">Narrative <span>Decoder</span></h1>
+    <p class="section-subtitle">Laboratorio di analisi testuale step-by-step — smonta i testi con i modelli di Greimas</p>
+  </div>
+
+  <div class="decoder-stepper" id="decoderStepper">
+    <div class="step-item active" data-step="1" onclick="goToDecoderStep(1)">
+      <div class="step-num">1</div>Selezione Testo
+    </div>
+    <div class="step-item" data-step="2" onclick="goToDecoderStep(2)">
+      <div class="step-num">2</div>Modello Attanziale
+    </div>
+    <div class="step-item" data-step="3" onclick="goToDecoderStep(3)">
+      <div class="step-num">3</div>Schema Canonico
+    </div>
+    <div class="step-item" data-step="4" onclick="goToDecoderStep(4)">
+      <div class="step-num">4</div>Report Analitico
+    </div>
+  </div>
+
+  <!-- STEP 1: Selezione testo -->
+  <div class="decoder-step active" id="dstep-1">
+    <div class="card mb-2">
+      <div class="card-title">Scegli il testo da analizzare</div>
+      <p class="text-muted mb-2">Seleziona uno dei tre testi pre-impostati oppure inserisci il tuo</p>
+    </div>
+    <div class="text-cards-grid">
+      <div class="text-choice-card" data-text="cenerentola" onclick="selectText('cenerentola')">
+        <div class="text-choice-label">Fiaba classica — Propp / Greimas</div>
+        <div class="text-choice-title">Cenerentola</div>
+        <div class="text-choice-preview">Una giovane di buona stirpe, ridotta in schiavitù dalla matrigna, viene trasformata dal suo Fato in una principessa per una sola notte…</div>
+      </div>
+      <div class="text-choice-card" data-text="shrek" onclick="selectText('shrek')">
+        <div class="text-choice-label">Mito contemporaneo — Identità</div>
+        <div class="text-choice-title">Shrek</div>
+        <div class="text-choice-preview">Un orco solitario che vuole solo stare da solo è costretto a intraprendere un'avventura per riavere la sua palude, e scopre il valore dell'accettazione…</div>
+      </div>
+      <div class="text-choice-card" data-text="odissea" onclick="selectText('odissea')">
+        <div class="text-choice-label">Mito arcaico — Identità / Nostos</div>
+        <div class="text-choice-title">Il ritorno di Ulisse</div>
+        <div class="text-choice-preview">Dopo vent'anni di guerra e vagabondaggio, Ulisse vuole solo tornare ad Itaca. Ma il ritorno è ostacolato da dei, mostri e pretendenti al suo trono…</div>
+      </div>
+    </div>
+    <div class="text-full-display" id="textFullDisplay"></div>
+    <div style="margin-top:1.5rem;text-align:right;">
+      <button class="btn btn-primary" id="step1Next" onclick="goToDecoderStep(2)" disabled>Prossimo step →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Modello Attanziale -->
+  <div class="decoder-step" id="dstep-2">
+    <div class="card mb-2">
+      <div class="card-title">Modello Attanziale di Greimas</div>
+      <p class="text-muted">Associa i personaggi del testo ai sei ruoli attanziali. Gli attanti non coincidono necessariamente con singoli personaggi.</p>
+    </div>
+    <div class="attanti-schema" id="attantiSchema">
+      <!-- populated by JS -->
+    </div>
+    <div style="text-align:right;margin-top:1rem;">
+      <button class="btn" onclick="goToDecoderStep(1)" style="margin-right:.5rem;">← Indietro</button>
+      <button class="btn btn-primary" onclick="goToDecoderStep(3)">Prossimo step →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Schema Canonico -->
+  <div class="decoder-step" id="dstep-3">
+    <div class="card mb-2">
+      <div class="card-title">Schema Narrativo Canonico</div>
+      <p class="text-muted">Identifica le quattro fasi della narrazione. Ogni fase corrisponde a una trasformazione dello stato del Soggetto.</p>
+    </div>
+    <div class="schema-canonico" id="schemaCanonico">
+      <!-- populated by JS -->
+    </div>
+    <div style="text-align:right;margin-top:1rem;">
+      <button class="btn" onclick="goToDecoderStep(2)" style="margin-right:.5rem;">← Indietro</button>
+      <button class="btn btn-primary" onclick="generateReport()">Genera Report →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Report -->
+  <div class="decoder-step" id="dstep-4">
+    <div class="card mb-2">
+      <div class="card-title">📊 Report Analitico</div>
+      <p class="text-muted">Confronto tra la tua analisi e l'interpretazione semiotica di riferimento</p>
+    </div>
+    <div id="reportContent"></div>
+    <div style="text-align:center;margin-top:1.5rem;">
+      <button class="btn btn-primary" onclick="resetDecoder()">🔄 Nuova analisi</button>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+  JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+// ── TAB NAVIGATION ──
+document.querySelectorAll('.nav-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ── SUB TAB QUIZ/FC ──
+function switchSubTab(t) {
+  if (t === 'fc') {
+    document.getElementById('panel-fc').style.display = '';
+    document.getElementById('panel-qz').style.display = 'none';
+    document.getElementById('subtab-fc-btn').className = 'btn btn-primary';
+    document.getElementById('subtab-qz-btn').className = 'btn';
+  } else {
+    document.getElementById('panel-fc').style.display = 'none';
+    document.getElementById('panel-qz').style.display = '';
+    document.getElementById('subtab-fc-btn').className = 'btn';
+    document.getElementById('subtab-qz-btn').className = 'btn btn-primary';
+    renderQuestion();
+  }
+}
+
+// ════════════════════════════════════════
+// §0 — SLIDE & NOTE
+// ════════════════════════════════════════
+const uploadArea = document.getElementById('uploadArea');
+const fileInput = document.getElementById('file-input');
+const filesList = document.getElementById('filesList');
+let uploadedFiles = [];
+
+uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
+uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
+uploadArea.addEventListener('drop', e => {
+  e.preventDefault(); uploadArea.classList.remove('drag-over');
+  handleFiles(e.dataTransfer.files);
+});
+fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+function handleFiles(files) {
+  [...files].forEach(f => {
+    uploadedFiles.push(f);
+    const item = document.createElement('div');
+    item.className = 'file-item';
+    item.innerHTML = `<span class="file-icon">📄</span><span class="file-name">${f.name}</span><span class="file-size">${(f.size/1024).toFixed(0)} KB</span><button class="file-del" onclick="removeFile('${f.name}',this)">✕</button>`;
+    filesList.appendChild(item);
+  });
+}
+function removeFile(name, btn) { btn.closest('.file-item').remove(); uploadedFiles = uploadedFiles.filter(f => f.name !== name); }
+
+const savedNotesList = [];
+function saveNote() {
+  const ch = document.getElementById('noteChapter').value.trim();
+  const txt = document.getElementById('notesArea').value.trim();
+  if (!txt) return;
+  savedNotesList.push({ ch: ch || 'Generale', txt });
+  renderNotes();
+  clearNote();
+}
+function clearNote() {
+  document.getElementById('notesArea').value = '';
+  document.getElementById('noteChapter').value = '';
+}
+function renderNotes() {
+  const c = document.getElementById('savedNotes');
+  c.innerHTML = savedNotesList.map((n, i) => `
+    <div style="border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1rem;background:var(--surface2);border-left:3px solid var(--accent2);">
+      <div style="font-size:.65rem;font-family:var(--font-mono);color:var(--text-muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.07em;">${n.ch}</div>
+      <div style="font-size:.83rem;line-height:1.5;">${n.txt}</div>
+      <button class="btn" style="font-size:.7rem;padding:.25rem .6rem;margin-top:.4rem;" onclick="deleteNote(${i})">Elimina</button>
+    </div>`).join('');
+}
+function deleteNote(i) { savedNotesList.splice(i, 1); renderNotes(); }
+
+// ════════════════════════════════════════
+// §1 — MAPPE CONCETTUALI
+// ════════════════════════════════════════
+const presets = {
+  identita: {
+    s1: 'Essere se stessi', s2: 'Essere come gli altri',
+    ns2: 'Non essere come gli altri', ns1: 'Non essere se stessi',
+    exs1: '→ autenticità, libertà interiore',
+    exs2: '→ conformismo, apparenza sociale',
+    exns2: '→ anticonformismo, ribellione',
+    exns1: '→ alienazione, maschera',
+    topic: 'Identità', focus: 'Meglio essere se stessi perché porta alla vera libertà'
+  },
+  natura: {
+    s1: 'Natura / Libertà', s2: 'Cultura / Regola',
+    ns2: 'Non-Cultura', ns1: 'Non-Natura',
+    exs1: '→ istinto, spontaneità', exs2: '→ norma, codice sociale',
+    exns2: '→ trasgressione del codice', exns1: '→ artificio, alienazione',
+    topic: 'Natura vs Cultura', focus: 'La cultura è necessaria ma aliena dalla natura'
+  },
+  bianco: {
+    s1: 'Bianco / Pulito', s2: 'Nero / Sporco',
+    ns2: 'Non-Nero', ns1: 'Non-Bianco',
+    exs1: '→ purezza, innocenza', exs2: '→ contaminazione, colpa',
+    exns2: '→ non sporco (neutro)', exns1: '→ non pulito (grigio morale)',
+    topic: 'Purezza morale', focus: 'Il confine tra bene e male è sempre relativo al codice'
+  }
+};
+
+function loadPreset(key) {
+  const p = presets[key];
+  document.getElementById('q-s1').value = p.s1;
+  document.getElementById('q-s2').value = p.s2;
+  document.getElementById('q-ns2').value = p.ns2;
+  document.getElementById('q-ns1').value = p.ns1;
+  document.getElementById('q-s1-ex').textContent = p.exs1;
+  document.getElementById('q-s2-ex').textContent = p.exs2;
+  document.getElementById('q-ns2-ex').textContent = p.exns2;
+  document.getElementById('q-ns1-ex').textContent = p.exns1;
+  document.getElementById('q-topic').value = p.topic;
+  document.getElementById('q-focus').value = p.focus;
+}
+function clearPreset() {
+  ['q-s1','q-s2','q-ns2','q-ns1','q-topic','q-focus'].forEach(id => document.getElementById(id).value = '');
+  ['q-s1-ex','q-s2-ex','q-ns2-ex','q-ns1-ex'].forEach(id => document.getElementById(id).textContent = '');
+  document.getElementById('q-output').style.display = 'none';
+}
+function generateQOutput() {
+  const s1 = document.getElementById('q-s1').value || '?';
+  const s2 = document.getElementById('q-s2').value || '?';
+  const ns2 = document.getElementById('q-ns2').value || '?';
+  const ns1 = document.getElementById('q-ns1').value || '?';
+  const topic = document.getElementById('q-topic').value;
+  const focus = document.getElementById('q-focus').value;
+  const el = document.getElementById('q-output');
+  el.style.display = 'block';
+  el.innerHTML = `<strong>Lettura del quadrato:</strong> Il testo articola la categoria semantica <em>"${topic || 'N/D'}"</em> attraverso l'opposizione fondamentale tra <strong>${s1}</strong> (+) e <strong>${s2}</strong> (−). Il termine <strong>${ns2}</strong> (non-S2) implica il rifiuto del secondo polo, mentre <strong>${ns1}</strong> (non-S1) nega il polo positivo. Il <em>focus</em> del testo — la sua risposta ideologica — è: <em>"${focus || 'N/D'}"</em>.`;
+}
+
+// Nodi mappa
+let nodes = [];
+let nodeIdCount = 0;
+let dragEl = null, ox = 0, oy = 0;
+
+function addNode() {
+  const type = document.getElementById('node-type').value;
+  const title = document.getElementById('node-title').value.trim();
+  const desc = document.getElementById('node-desc').value.trim();
+  if (!title) return;
+  nodeIdCount++;
+  const x = 20 + Math.random() * 300;
+  const y = 20 + Math.random() * 200;
+  nodes.push({ id: nodeIdCount, type, title, desc, x, y });
+  renderNodes();
+  document.getElementById('node-title').value = '';
+  document.getElementById('node-desc').value = '';
+}
+
+function renderNodes() {
+  const canvas = document.getElementById('nodesCanvas');
+  document.getElementById('canvasEmpty').style.display = nodes.length ? 'none' : '';
+  canvas.querySelectorAll('.node-card').forEach(n => n.remove());
+  nodes.forEach(n => {
+    const el = document.createElement('div');
+    el.className = `node-card ${n.type}`;
+    el.id = `node-${n.id}`;
+    el.style.left = n.x + 'px';
+    el.style.top = n.y + 'px';
+    el.innerHTML = `<button class="node-del" onclick="removeNode(${n.id})">✕</button><div class="node-type">${n.type}</div><div class="node-text">${n.title}</div>${n.desc ? `<div class="node-desc">${n.desc}</div>` : ''}`;
+    el.addEventListener('mousedown', startDrag);
+    el.addEventListener('touchstart', startDragTouch, { passive: true });
+    canvas.appendChild(el);
+  });
+}
+
+function startDrag(e) {
+  if (e.target.classList.contains('node-del')) return;
+  dragEl = e.currentTarget;
+  const r = dragEl.getBoundingClientRect();
+  const cr = dragEl.parentElement.getBoundingClientRect();
+  ox = e.clientX - r.left; oy = e.clientY - r.top;
+  dragEl.style.zIndex = 10;
+  document.addEventListener('mousemove', doDrag);
+  document.addEventListener('mouseup', stopDrag);
+}
+function startDragTouch(e) {
+  if (e.target.classList.contains('node-del')) return;
+  dragEl = e.currentTarget;
+  const t = e.touches[0];
+  const r = dragEl.getBoundingClientRect();
+  ox = t.clientX - r.left; oy = t.clientY - r.top;
+  dragEl.style.zIndex = 10;
+  document.addEventListener('touchmove', doDragTouch, { passive: false });
+  document.addEventListener('touchend', stopDrag);
+}
+function doDrag(e) {
+  if (!dragEl) return;
+  const cr = dragEl.parentElement.getBoundingClientRect();
+  dragEl.style.left = Math.max(0, e.clientX - cr.left - ox) + 'px';
+  dragEl.style.top = Math.max(0, e.clientY - cr.top - oy) + 'px';
+}
+function doDragTouch(e) {
+  e.preventDefault();
+  if (!dragEl) return;
+  const t = e.touches[0];
+  const cr = dragEl.parentElement.getBoundingClientRect();
+  dragEl.style.left = Math.max(0, t.clientX - cr.left - ox) + 'px';
+  dragEl.style.top = Math.max(0, t.clientY - cr.top - oy) + 'px';
+}
+function stopDrag() {
+  if (dragEl) { dragEl.style.zIndex = 2; dragEl = null; }
+  document.removeEventListener('mousemove', doDrag);
+  document.removeEventListener('mouseup', stopDrag);
+  document.removeEventListener('touchmove', doDragTouch);
+  document.removeEventListener('touchend', stopDrag);
+}
+function removeNode(id) { nodes = nodes.filter(n => n.id !== id); renderNodes(); }
+function clearNodes() { nodes = []; renderNodes(); }
+
+
+// ════════════════════════════════════════
+// §2 — FLASHCARD
+// ════════════════════════════════════════
+const allFlashcards = [
+  { ch: 'segni', q: 'Cos\'è la semiosi illimitata per Peirce?', a: 'È il processo per cui l\'interpretante di un segno è a sua volta un segno, generando una catena potenzialmente infinita di interpretazioni.', ex: 'Bambino chiede "cos\'è un cucciolo?" → "un animale non adulto" → "cos\'è un animale?"… La catena non ha fondo.' },
+  { ch: 'segni', q: 'Qual è la differenza tra tipo (type) e occorrenza (token)?', a: 'Il type è il segno come classe astratta nella nostra mente. Il token è la singola manifestazione materiale concreta di quel segno.', ex: 'In "rose is a rose is a rose": 3 type (ROSE, IS, A) ma 10 token — ogni occorrenza scritta è unica.' },
+  { ch: 'segni', q: 'Saussure vs Peirce: dove risiede il segno?', a: 'Per Saussure i segni sono entità esclusivamente mentali (solo il type è segno). Per Peirce anche il token materiale è un segno — la differenza è solo ontologica.', ex: 'La parola scritta "cane" su carta è per Peirce un segno; per Saussure è solo un segnale, veicolo del segno mentale.' },
+  { ch: 'segni', q: 'Cos\'è un indice secondo Peirce?', a: 'Un segno legato al suo referente per contiguità o relazione causale — indica qualcosa di vicino o contiguo.', ex: 'Il fumo lontano indica il fuoco. La traccia di un animale sulla sabbia indica il suo passaggio.' },
+  { ch: 'strutture', q: 'Cosa significa "valore differenziale" in Saussure?', a: 'Il significato di un segno non dipende da cosa esso è in sé, ma dalla differenza rispetto agli altri segni del sistema. Non esistono valori positivi, solo differenze.', ex: 'Il cavallo negli scacchi vale non per la sua forma equina, ma perché si muove diversamente da tutti gli altri pezzi.' },
+  { ch: 'strutture', q: 'Cos\'è il semisimbolismo?', a: 'Una relazione sistematica tra categorie del piano dell\'espressione e categorie del piano del contenuto: coppie di significanti corrispondono a coppie di significati.', ex: 'Rosso:Giallo = Pericolo:Sicurezza (semaforo). Alto:Basso = Potere:Sottomissione (composizione visiva).' },
+  { ch: 'strutture', q: 'Qual è la differenza tra denotazione e connotazione?', a: 'La denotazione è il significato primario (referenziale). La connotazione è il significato secondo: un segno diventa a sua volta significante di un altro contenuto culturale.', ex: 'Colomba → denotazione: femmina del colombo. Connotazione: PACE. Il segno "colomba" diventa significante del segno "pace".' },
+  { ch: 'narrazione', q: 'Quali sono i sei attanti del Modello Attanziale di Greimas?', a: 'Soggetto, Oggetto di Valore, Destinante (mandante), Destinatario, Aiutante, Opponente. Gli attanti sono ruoli funzionali, non personaggi — un personaggio può ricoprire più attanti.', ex: 'In Shrek: Sogg.=Shrek, Oggetto=la palude, Destinante=Lord Farquaad, Aiutante=Ciuchino, Opponente=Farquaad stesso.' },
+  { ch: 'narrazione', q: 'Quali sono le quattro fasi dello Schema Canonico Narrativo?', a: '1. Manipolazione (il Destinante crea il voler/dover fare del Soggetto). 2. Competenza (il Soggetto acquisisce un sapere/potere fare). 3. Performance (il Soggetto agisce). 4. Sanzione (il Destinante valuta e riconosce il risultato).', ex: 'In Cenerentola: 1-il ballo impone il contratto; 2-la fata madrina conferisce poteri; 3-Cenerentola va al ballo; 4-il principe la riconosce.' },
+  { ch: 'narrazione', q: 'Cosa distingue topic e focus in una storia?', a: 'Il topic è l\'argomento generale (campo semantico — un lessema). Il focus è la posizione ideologica del testo su quel topic: il valore positivo scelto e la causa che lo giustifica.', ex: 'Shrek: Topic = Identità. Focus = "È meglio essere se stessi perché solo così troviamo chi ci ama davvero".' },
+  { ch: 'enunciazione', q: 'Cos\'è il débrayage nell\'enunciazione?', a: 'È l\'operazione con cui il soggetto dell\'enunciazione proietta fuori di sé un "lui", un "altrove" e un "allora" — creando la distanza tra enunciato ed enunciazione.', ex: 'Quando scrivo "Marco andò a Roma il giorno dopo", proietto fuori dall\'io-qui-ora un soggetto (lui), uno spazio (Roma) e un tempo (ieri/allora).' },
+  { ch: 'interpretazione', q: 'Cos\'è l\'abito (habit) per Peirce?', a: 'È un\'interpretazione standardizzata che si forma quando un certo livello di conoscenza è sufficiente per raggiungere i propri scopi pratici. Trasforma l\'oggetto dinamico in oggetto immediato.', ex: 'Vediamo la neve e pensiamo subito "freddo": l\'abito ci fa dimenticare tutte le altre interpretazioni possibili (bellezza, pericolo, gioco…).' }
+];
+
+let filteredCards = [...allFlashcards];
+let currentFcIndex = 0;
+let fcFlipped = false;
+
+document.getElementById('fcFilters').addEventListener('click', e => {
+  const btn = e.target.closest('.fc-filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.fc-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const ch = btn.dataset.ch;
+  filteredCards = ch === 'all' ? [...allFlashcards] : allFlashcards.filter(c => c.ch === ch);
+  currentFcIndex = 0;
+  renderFc();
+});
+
+function renderFc() {
+  if (!filteredCards.length) return;
+  const c = filteredCards[currentFcIndex];
+  document.getElementById('fcInner').classList.remove('flipped');
+  fcFlipped = false;
+  document.getElementById('fcChapterTag').textContent = c.ch.toUpperCase();
+  document.getElementById('fcChapterTagB').textContent = c.ch.toUpperCase();
+  document.getElementById('fcQuestion').textContent = c.q;
+  document.getElementById('fcAnswer').textContent = c.a;
+  document.getElementById('fcExample').textContent = '📌 Esempio: ' + c.ex;
+  document.getElementById('fcCounter').textContent = `${currentFcIndex + 1} / ${filteredCards.length}`;
+  document.getElementById('fcProgress').style.width = ((currentFcIndex + 1) / filteredCards.length * 100) + '%';
+}
+function flipCard() {
+  fcFlipped = !fcFlipped;
+  document.getElementById('fcInner').classList.toggle('flipped', fcFlipped);
+}
+function fcNav(dir) {
+  currentFcIndex = (currentFcIndex + dir + filteredCards.length) % filteredCards.length;
+  renderFc();
+}
+function shuffleCards() {
+  for (let i = filteredCards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [filteredCards[i], filteredCards[j]] = [filteredCards[j], filteredCards[i]];
+  }
+  currentFcIndex = 0; renderFc();
+}
+renderFc();
+
+// ════════════════════════════════════════
+// §2 — QUIZ
+// ════════════════════════════════════════
+const quizData = [
+  {
+    q: 'Secondo Saussure, il significato di un segno linguistico è determinato da:',
+    opts: [
+      'La natura fisica e materiale del significante',
+      'La differenza rispetto agli altri segni nel sistema (valore differenziale)',
+      'Il referente concreto nel mondo reale',
+      'La frequenza d\'uso nella comunità linguistica'
+    ],
+    correct: 1,
+    feedback: '<strong>Risposta corretta: il valore differenziale.</strong> Per Saussure il valore di "cavallo" non dipende dalla forma equina del pezzo o dal referente animale, ma dal fatto che si muove diversamente dalla torre, dall\'alfiere, eccetera. Non esistono valori positivi nel sistema linguistico, solo differenze. Questo è il principio strutturalista fondamentale.'
+  },
+  {
+    q: 'Nel Modello Attanziale di Greimas, quale coppia descrive il motore della narrativa?',
+    opts: [
+      'Aiutante ↔ Opponente',
+      'Destinante ↔ Destinatario',
+      'Soggetto ↔ Oggetto di Valore (la mancanza)',
+      'Eroe ↔ Antagonista'
+    ],
+    correct: 2,
+    feedback: '<strong>Risposta corretta: Soggetto ↔ Oggetto di Valore.</strong> Il motore della narrazione è la <em>mancanza</em>: il Soggetto è in stato di disgiunzione dall\'Oggetto di Valore (S ∪ O) e la storia si sviluppa nel tentativo di raggiungerlo (S ∩ O). Senza mancanza non c\'è narrazione. Aiutante/Opponente e Destinante/Destinatario sono assi narrativi complementari, non il motore primario.'
+  },
+  {
+    q: 'La semiosi illimitata di Peirce implica che:',
+    opts: [
+      'I segni sono infiniti perché il mondo è infinito',
+      'Ogni interpretante è a sua volta un segno, generando una catena potenzialmente inesauribile',
+      'Non è possibile raggiungere un significato definitivo di nessun segno',
+      'Solo i simboli generano catene di interpretazione'
+    ],
+    correct: 1,
+    feedback: '<strong>Risposta corretta: ogni interpretante è a sua volta un segno.</strong> La semiosi illimitata non significa che i significati siano inaccessibili, ma che sono sempre provvisori. Peirce risponde con il concetto di <em>abito</em>: quando un\'interpretazione è funzionale ai nostri scopi pratici, ci fermiamo. Gli artisti e i bambini invece continuano a esplorare la catena per trovare nuovi significati.'
+  },
+  {
+    q: 'Nel percorso generativo del senso di Greimas, quale livello è il più profondo?',
+    opts: [
+      'Livello discorsivo (attori, spazio, tempo)',
+      'Livello narrativo superficiale (programmi narrativi)',
+      'Livello profondo (quadrato semiotico, semantica fondamentale)',
+      'Livello figurativo e plastico'
+    ],
+    correct: 2,
+    feedback: '<strong>Risposta corretta: il livello profondo.</strong> Il modello a cipolla di Greimas procede dal profondo al superficiale: 1) Livello profondo (quadrato semiotico, valori astratti), 2) Livello narrativo (attanti, schema canonico), 3) Livello discorsivo (attori concreti, spazio-tempo), 4) Livello della manifestazione (significanti verbali, visivi, etc.). Il senso è una progressiva conversione di strutture astratte in forme concrete.'
+  },
+  {
+    q: 'Cos\'è il semisimbolismo?',
+    opts: [
+      'Un segno che è metà icona e metà simbolo',
+      'Una relazione sistematica tra categorie espressive e categorie di contenuto',
+      'Il sistema dei segni non linguistici',
+      'Un tipo di abduzione parziale'
+    ],
+    correct: 1,
+    feedback: '<strong>Risposta corretta: relazione sistematica tra categorie espressive e di contenuto.</strong> Il semisimbolismo non riguarda singoli segni ma coppie: una coppia di significanti (es. Rosso:Giallo) corrisponde sistematicamente a una coppia di significati (es. Pericolo:Sicurezza). Questo lo distingue dal simbolo (relazione arbitraria singola) e permette l\'analisi del linguaggio visivo e cromatico.'
+  },
+  {
+    q: 'La differenza tra un\'icona e un indice per Peirce è:',
+    opts: [
+      'L\'icona è un segno artificiale, l\'indice è naturale',
+      'L\'icona somiglia al suo referente, l\'indice è legato ad esso per contiguità/causalità',
+      'L\'icona è visiva, l\'indice è verbale',
+      'L\'icona è arbitraria, l\'indice è motivato'
+    ],
+    correct: 1,
+    feedback: '<strong>Risposta corretta: somiglianza vs contiguità.</strong> L\'icona intrattiene una relazione di <em>somiglianza</em> col referente (una fotografia, una mappa, una metafora). L\'indice è legato al referente per <em>contiguità o causalità</em>: il fumo indica il fuoco (causale), la freccia indica una direzione (spaziale), il singhiozzo indica il dolore (sintomatico). Il simbolo è invece totalmente arbitrario (convenzionale).'
+  },
+  {
+    q: 'Nel contesto della narrativa, cosa si intende per "Destinante"?',
+    opts: [
+      'Il personaggio che riceve l\'oggetto alla fine',
+      'Il narratore esterno alla storia',
+      'Il mandante che trasmette valori, crea il "voler fare" e sanziona il risultato',
+      'Il destinatario del messaggio comunicativo'
+    ],
+    correct: 2,
+    feedback: '<strong>Risposta corretta: il mandante che trasmette valori e sanziona.</strong> Il Destinante (o Mandante) è l\'istanza che trasmette i valori collettivi al Soggetto, stabilisce il contratto narrativo, e alla fine riconosce (o nega) il successo della missione. Nella fase di Sanzione è il Destinante a valutare. Spesso coincide con figure istituzionali o simboliche: il re, la società, la legge morale, Dio.'
+  },
+  {
+    q: 'Secondo la teoria dell\'enunciazione, cosa produce l\'operazione di débrayage?',
+    opts: [
+      'La fusione tra narratore e personaggio principale',
+      'La proiezione di un "lui/lei", un "altrove" e un "allora" separati dall\'io-qui-ora',
+      'Il ritorno al punto di vista soggettivo del narratore',
+      'La moltiplicazione dei personaggi nel testo'
+    ],
+    correct: 1,
+    feedback: '<strong>Risposta corretta: la proiezione di lui/altrove/allora.</strong> Il débrayage è la distanziazione fondamentale dell\'enunciazione: quando dico "Marco andò a Roma ieri" sto proiettando fuori di me (dell\'io-qui-ora dell\'enunciazione) un attore (Marco/lui), uno spazio (Roma/altrove) e un tempo (ieri/allora). L\'embrayage è il processo inverso, che ri-aggancia l\'enunciato all\'enunciazione.'
+  }
+];
+
+let currentQ = 0, score = 0, answered = false;
+
+function renderQuestion() {
+  if (currentQ >= quizData.length) { showResult(); return; }
+  const q = quizData[currentQ];
+  document.getElementById('quizMain').style.display = '';
+  document.getElementById('quizResult').style.display = 'none';
+  document.getElementById('quizQNum').textContent = `DOMANDA ${String(currentQ + 1).padStart(2, '0')}`;
+  document.getElementById('quizQText').textContent = q.q;
+  document.getElementById('quizProgressTxt').textContent = `Domanda ${currentQ + 1} di ${quizData.length}`;
+  document.getElementById('quizScoreBadge').textContent = `Punti: ${score}`;
+  document.getElementById('quizProgress').style.width = ((currentQ + 1) / quizData.length * 100) + '%';
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('quizFeedback').innerHTML = '';
+  document.getElementById('quizNextBtn').style.display = 'none';
+  answered = false;
+
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQ(idx) {
+  if (answered) return;
+  answered = true;
+  const q = quizData[currentQ];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.correct) b.classList.add('correct');
+    if (i === idx && idx !== q.correct) b.classList.add('wrong');
+    if (i !== idx && i === q.correct) b.classList.add('reveal');
+  });
+  if (idx === q.correct) score++;
+  document.getElementById('quizScoreBadge').textContent = `Punti: ${score}`;
+  const fb = document.getElementById('quizFeedback');
+  fb.innerHTML = q.feedback;
+  fb.classList.add('visible');
+  document.getElementById('quizNextBtn').style.display = '';
+}
+
+function nextQuestion() {
+  currentQ++;
+  renderQuestion();
+}
+function showResult() {
+  document.getElementById('quizMain').style.display = 'none';
+  const r = document.getElementById('quizResult');
+  r.style.display = '';
+  document.getElementById('resultScore').textContent = `${score} / ${quizData.length}`;
+  const pct = score / quizData.length;
+  const msgs = [
+    'Ripassa la teoria — ogni concetto merita una lettura approfondita.',
+    'Buona base! Concentrati sugli attanti e il quadrato semiotico.',
+    'Ottimo lavoro! Stai padroneggiando il linguaggio semiotico.',
+    'Eccellente! Pronto per l\'esame del Prof. Santangelo. 🎓'
+  ];
+  document.getElementById('resultMsg').textContent = msgs[Math.min(3, Math.floor(pct * 4))];
+}
+function restartQuiz() {
+  currentQ = 0; score = 0; answered = false;
+  document.getElementById('quizResult').style.display = 'none';
+  renderQuestion();
+}
+
+// ════════════════════════════════════════
+// §3 — NARRATIVE DECODER
+// ════════════════════════════════════════
+let selectedText = null;
+let decoderCurrentStep = 1;
+
+const texts = {
+  cenerentola: {
+    label: 'Fiaba — Cenerentola',
+    full: 'Una giovane fanciulla di nobile stirpe, Cenerentola, vive in stato di umiliazione presso la matrigna e le sorellastre che la trattano come una serva. Un messaggero annuncia un ballo reale cui sono invitate tutte le fanciulle del regno. La fata madrina trasforma Cenerentola concedendole un abito, una carrozza e la bellezza, con una sola condizione: tornare entro la mezzanotte. Al ballo il principe si innamora di lei. Alla mezzanotte Cenerentola fugge, perdendo una scarpetta di cristallo. Il principe usa la scarpetta per ritrovarla, la riconosce e la sposa, restituendole la sua vera identità e rango sociale.',
+    attanti: {
+      soggetto: 'Cenerentola',
+      oggetto: 'Amore del principe / recupero identità e rango',
+      destinante: 'La Fata Madrina (e il destino)',
+      destinatario: 'Cenerentola stessa',
+      aiutante: 'Fata Madrina, animali amici',
+      opponente: 'Matrigna e sorellastre'
+    },
+    fasi: {
+      manipolazione: 'Il ballo reale è indetto (contratto sociale). La Fata Madrina stipula un contratto con Cenerentola: le fornisce i mezzi magici imponendo il limite della mezzanotte.',
+      competenza: 'Cenerentola acquisisce il potere-fare attraverso la trasformazione magica (abito, carrozza, bellezza) e il sapere-fare (il galateo di corte che già possiede per origine nobile).',
+      performance: 'Cenerentola va al ballo, conquista il principe, ma fugge allo scoccare della mezzanotte perdendo la scarpetta — che diventa la chiave dell\'identità.',
+      sanzione: 'Il principe usa la scarpetta per riconoscere Cenerentola e la sposa. La Sanzione è positiva: il valore dell\'identità autentica viene pubblicamente riconosciuto e premiato.'
+    },
+    topic: 'Identità sociale e merito', focus: 'La vera nobiltà è interiore e non può essere nascosta per sempre'
+  },
+  shrek: {
+    label: 'Mito contemporaneo — Shrek',
+    full: 'Shrek è un orco solitario che vive in una palude, felice della sua solitudine. Un giorno la palude viene invasa da creature magiche esiliati dal regno di Lord Farquaad. Per recuperarla, Shrek accetta di fare da messaggero: deve liberare la principessa Fiona dall\'alto castello per darla in sposa a Farquaad. Durante il viaggio, affiancato dal ciarliero Ciuchino, Shrek si innamora di Fiona — che di notte si trasforma in orchessa. Scoprendo che Farquaad vuole usare Fiona come trofeo, Shrek irrompe al matrimonio. Fiona sceglie Shrek: la sua vera forma di orchessa è il suo vero sé. La loro accettazione reciproca spezza l\'incantesimo.',
+    attanti: {
+      soggetto: 'Shrek',
+      oggetto: 'La palude (inizialmente) → poi: accettazione di sé e amore autentico',
+      destinante: 'Lord Farquaad (contratto iniziale) → poi: l\'amore come valore autentico',
+      destinatario: 'Shrek e Fiona (entrambi in cerca di accettazione)',
+      aiutante: 'Ciuchino',
+      opponente: 'Lord Farquaad, i pregiudizi sociali sull\'aspetto'
+    },
+    fasi: {
+      manipolazione: 'Lord Farquaad stipula un contratto con Shrek: libera Fiona e avrai la tua palude. Il voler-fare di Shrek è inizialmente puramente pragmatico (vuole stare da solo).',
+      competenza: 'Shrek acquisisce un sapere-amare attraverso il viaggio con Fiona: scopre che la sua diversità è condivisa, che può essere accettato. Il Ciuchino funge da specchio.',
+      performance: 'Shrek affronta Farquaad, distrugge il matrimonio forzato, e si dichiara a Fiona. La performance è polemica (contro Farquaad) ma anche contrattuale (offre amore autentico).',
+      sanzione: 'La Sanzione è trasformazione: il bacio vero spezza l\'incantesimo non in una forma umana bella, ma in quella di orchessa. L\'accettazione reciproca è il riconoscimento positivo del valore autentico.'
+    },
+    topic: 'Identità e accettazione di sé', focus: 'L\'accettazione autentica di sé porta alla vera libertà e all\'amore'
+  },
+  odissea: {
+    label: 'Mito arcaico — Il ritorno di Ulisse',
+    full: 'Ulisse, re di Itaca, ha combattuto per dieci anni a Troia. Ora vuole solo tornare a casa, dalla moglie Penelope e dal figlio Telemaco. Ma il viaggio dura altri dieci anni: Poseidone lo perseguita, Circe lo trattiene come amante, i Lestrigoni distruggono la sua flotta, Calipso lo tiene sull\'isola di Ogigia per sette anni. Ogni volta Ulisse usa l\'intelligenza (metis) per sopravvivere: la sua astuzia è il vero "mezzo magico". Tornato a Itaca in incognito, deve dimostrare la propria identità ai Proci che hanno invaso la sua casa. L\'arco che solo lui sa tendere è la prova finale.',
+    attanti: {
+      soggetto: 'Ulisse',
+      oggetto: 'Il ritorno a Itaca / il recupero dell\'identità regale e familiare',
+      destinante: 'Atena (protettrice) / il destino / il desiderio del nostos',
+      destinatario: 'Ulisse, Penelope, Telemaco, Itaca',
+      aiutante: 'Atena, Ermes, Eolo, i Feaci',
+      opponente: 'Poseidone, Circe (temporanea), i Proci, le Sirene'
+    },
+    fasi: {
+      manipolazione: 'Il contratto è implicito ma potente: Ulisse ha un "dover-tornare" come re e padre. L\'Olimpo stabilisce che Ulisse merita il nostos. Telemaco inizia a cercare notizie del padre.',
+      competenza: 'La competenza di Ulisse è la metis — l\'intelligenza astuta. Non ha forza bruta ma sapere: conosce i limiti degli dei, come aggirare i mostri, come mentire strategicamente.',
+      performance: 'La performance finale è il concorso dell\'arco: Ulisse lo tende davanti ai Proci che falliscono, si rivela, e li stermina. Recupera la casa, Penelope, l\'identità.',
+      sanzione: 'La Sanzione è il riconoscimento da parte di Penelope (la prova del letto inamovibile) — solo lui conosce il segreto. L\'identità è certificata dal sapere condiviso, non dall\'aspetto.'
+    },
+    topic: 'Identità e ritorno a se stessi', focus: 'La vera identità è resistente alla perdita e si riafferma attraverso l\'intelligenza e la memoria'
+  }
+};
+
+function selectText(key) {
+  selectedText = key;
+  document.querySelectorAll('.text-choice-card').forEach(c => c.classList.remove('selected'));
+  document.querySelector(`[data-text="${key}"]`).classList.add('selected');
+  const t = texts[key];
+  const disp = document.getElementById('textFullDisplay');
+  disp.textContent = t.full;
+  disp.classList.add('visible');
+  document.getElementById('step1Next').disabled = false;
+}
+
+const attantiDefs = [
+  { key: 'soggetto', label: 'Soggetto', desc: 'Chi compie l\'azione / vuole l\'oggetto', icon: '⚡' },
+  { key: 'oggetto', label: 'Oggetto di Valore', desc: 'Ciò che il Soggetto cerca/vuole', icon: '✦' },
+  { key: 'destinante', label: 'Destinante (Mandante)', desc: 'Chi trasmette i valori e il contratto', icon: '👁' },
+  { key: 'destinatario', label: 'Destinatario', desc: 'Chi riceve il beneficio dell\'azione', icon: '🎯' },
+  { key: 'aiutante', label: 'Aiutante', desc: 'Chi facilita la missione del Soggetto', icon: '🤝' },
+  { key: 'opponente', label: 'Opponente', desc: 'Chi ostacola la missione del Soggetto', icon: '⚔' }
+];
+
+const fasiDefs = [
+  { key: 'manipolazione', label: 'Manipolazione', num: '1', desc: 'Il Destinante fa sì che il Soggetto voglia/debba agire (contratto)' },
+  { key: 'competenza', label: 'Competenza', num: '2', desc: 'Il Soggetto acquisisce il sapere e il potere per agire (prove qualificanti)' },
+  { key: 'performance', label: 'Performance', num: '3', desc: 'Il Soggetto compie l\'azione principale — congiunzione/disgiunzione con l\'Oggetto' },
+  { key: 'sanzione', label: 'Sanzione', num: '4', desc: 'Il Destinante valuta e riconosce (±) il risultato della Performance' }
+];
+
+function goToDecoderStep(step) {
+  if (step > 1 && !selectedText) { alert('Seleziona prima un testo nello Step 1!'); return; }
+  decoderCurrentStep = step;
+  document.querySelectorAll('.decoder-step').forEach(s => s.classList.remove('active'));
+  document.getElementById(`dstep-${step}`).classList.add('active');
+  document.querySelectorAll('.step-item').forEach(s => {
+    s.classList.remove('active', 'done');
+    const sn = parseInt(s.dataset.step);
+    if (sn < step) s.classList.add('done');
+    if (sn === step) s.classList.add('active');
+  });
+
+  if (step === 2) buildAttantiSchema();
+  if (step === 3) buildSchemaCanonico();
+}
+
+function buildAttantiSchema() {
+  const container = document.getElementById('attantiSchema');
+  const t = selectedText ? texts[selectedText] : null;
+  const chars = t ? Object.values(t.attanti) : [];
+  const allChars = t ? [...new Set(Object.values(t.attanti))] : ['Personaggio A', 'Personaggio B', 'Personaggio C'];
+
+  container.innerHTML = attantiDefs.map(a => `
+    <div class="attante-slot" id="slot-${a.key}">
+      <div class="attante-name">${a.icon} ${a.label}</div>
+      <select class="attante-select" id="sel-${a.key}" onchange="this.closest('.attante-slot').classList.toggle('filled', this.value!='')">
+        <option value="">— scegli —</option>
+        ${allChars.map(c => `<option value="${c}">${c}</option>`).join('')}
+        <option value="__custom__">✏ Altro…</option>
+      </select>
+      <div class="attante-role-desc">${a.desc}</div>
+    </div>`).join('');
+}
+
+function buildSchemaCanonico() {
+  const container = document.getElementById('schemaCanonico');
+  container.innerHTML = fasiDefs.map(f => `
+    <div class="fase-card">
+      <div class="fase-num">${f.num}</div>
+      <div class="fase-title">${f.label}</div>
+      <div class="fase-desc-label">Descrivi nel testo:</div>
+      <div class="fase-desc-label" style="font-size:.65rem;color:var(--text-muted);margin-bottom:.3rem;font-style:italic;">${f.desc}</div>
+      <textarea class="fase-textarea" id="fase-${f.key}" placeholder="es. Il re invia l\'eroe…"></textarea>
+    </div>`).join('');
+}
+
+function generateReport() {
+  goToDecoderStep(4);
+  const t = texts[selectedText];
+  const rpt = document.getElementById('reportContent');
+
+  let attHtml = '<div class="report-section"><div class="report-section-title">Modello Attanziale</div>';
+  attantiDefs.forEach(a => {
+    const userVal = document.getElementById(`sel-${a.key}`)?.value || '—';
+    const correctVal = t.attanti[a.key];
+    const match = userVal.toLowerCase() === correctVal.toLowerCase() || userVal === correctVal;
+    attHtml += `<div class="report-row">
+      <div class="report-row-label">${a.label}</div>
+      <div class="report-row-user">📝 ${userVal || '—'}</div>
+      <div class="report-row-correct">✓ ${correctVal}</div>
+      <div class="report-match ${match ? 'ok' : 'fail'}">${match ? '✓' : '!'}</div>
+    </div>`;
+  });
+  attHtml += '</div>';
+
+  let fasHtml = '<div class="report-section"><div class="report-section-title">Schema Canonico</div>';
+  fasiDefs.forEach(f => {
+    const userVal = document.getElementById(`fase-${f.key}`)?.value.trim() || '—';
+    const correctVal = t.fasi[f.key];
+    fasHtml += `<div class="report-row" style="flex-direction:column;gap:.4rem;">
+      <div style="display:flex;gap:.75rem;align-items:center;"><div class="report-row-label">${f.label}</div></div>
+      <div style="font-size:.8rem;background:var(--surface2);border-radius:5px;padding:.5rem .75rem;border-left:2px solid var(--warm-mid);">📝 <em>${userVal}</em></div>
+      <div style="font-size:.8rem;background:rgba(45,125,70,.06);border-radius:5px;padding:.5rem .75rem;border-left:2px solid var(--accent3);color:var(--accent3);">✓ ${correctVal}</div>
+    </div>`;
+  });
+  fasHtml += '</div>';
+
+  const theoryHtml = `<div class="report-theory-box">
+    <h4>📚 Lettura semiotica complessiva — ${t.label}</h4>
+    <p><strong>Topic:</strong> ${t.topic}</p>
+    <p style="margin-top:.4rem;"><strong>Focus ideologico:</strong> "${t.focus}"</p>
+    <p style="margin-top:.75rem;font-size:.8rem;opacity:.8;">
+      Secondo il modello generativo di Greimas, questo testo esprime, al livello profondo, una categoria semantica fondamentale. 
+      Il percorso narrativo è la conversione progressiva dei valori astratti in azioni concrete: dalla Manipolazione (il contratto con il Destinante), 
+      attraverso la Competenza (acquisizione del potere-fare), fino alla Performance (la prova glorificante) e alla Sanzione 
+      (il riconoscimento del valore). Analizzare il testo significa risalire da questa superficie manifestata alle strutture profonde di senso.
+    </p>
+  </div>`;
+
+  rpt.innerHTML = attHtml + fasHtml + theoryHtml;
+}
+
+function resetDecoder() {
+  selectedText = null;
+  decoderCurrentStep = 1;
+  document.querySelectorAll('.text-choice-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('textFullDisplay').classList.remove('visible');
+  document.getElementById('step1Next').disabled = true;
+  document.getElementById('reportContent').innerHTML = '';
+  document.querySelectorAll('.decoder-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('dstep-1').classList.add('active');
+  document.querySelectorAll('.step-item').forEach(s => {
+    s.classList.remove('active', 'done');
+    if (s.dataset.step === '1') s.classList.add('active');
+  });
+}
+</script>
+</body>
+</html>
