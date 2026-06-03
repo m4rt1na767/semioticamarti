@@ -865,19 +865,6 @@
   }
 
   /* ── SLIDE VIEWER ── */
-  .slide-upload-area {
-    border: 2px dashed var(--border);
-    border-radius: var(--radius-lg);
-    padding: 3rem 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color .2s, background .2s;
-  }
-  .slide-upload-area:hover, .slide-upload-area.drag-over { border-color: var(--accent); background: rgba(192,57,43,.03); }
-  .upload-icon { font-size: 2.5rem; margin-bottom: .75rem; }
-  .upload-title { font-family: var(--font-display); font-size: 1.4rem; margin-bottom: .4rem; }
-  .upload-sub { font-size: .8rem; color: var(--text-muted); }
-  #file-input { display: none; }
   .slide-notes-area {
     width: 100%;
     border: 1px solid var(--border);
@@ -980,20 +967,10 @@
 <div class="page-wrap">
   <div class="section-header">
     <h1 class="section-title">Slide <span>&</span> Note</h1>
-    <p class="section-subtitle">Carica i materiali del corso e aggiungi le tue annotazioni per ogni lezione</p>
+    <p class="section-subtitle">Aggiungi le tue annotazioni per ogni lezione</p>
   </div>
-  <div class="grid-2" style="align-items:start;">
-    <div>
-      <div class="slide-upload-area" id="uploadArea" onclick="document.getElementById('file-input').click()">
-        <div class="upload-icon">📚</div>
-        <div class="upload-title">Carica le slide</div>
-        <div class="upload-sub">PDF, PPT, PPTX — trascina qui o clicca per selezionare</div>
-        <input type="file" id="file-input" accept=".pdf,.ppt,.pptx" multiple>
-      </div>
-      <div class="files-list" id="filesList"></div>
-    </div>
-    <div>
-      <div class="card" style="height:100%;">
+  <div>
+      <div class="card">
         <div class="card-title" style="font-size:1.1rem;">📝 Le mie Annotazioni</div>
         <div class="text-muted mb-1">Capitolo / Lezione di riferimento:</div>
         <input type="text" class="form-input" id="noteChapter" placeholder="es. Segni — Peirce vs Saussure" style="width:100%;margin-bottom:.75rem;">
@@ -1004,7 +981,6 @@
         </div>
         <div id="savedNotes" style="margin-top:1rem;display:flex;flex-direction:column;gap:.5rem;"></div>
       </div>
-    </div>
   </div>
   <hr class="divider">
   <div class="card mt-2">
