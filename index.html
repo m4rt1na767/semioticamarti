@@ -293,77 +293,46 @@
     overflow: visible;
   }
 
-  /* Mappa Nodi */
-  .nodes-canvas {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-    min-height: 320px;
-    position: relative;
-    overflow: hidden;
+  /* Mappa Guidata */
+  .map-chapter-tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.5rem; }
+  .map-ch-btn {
+    font-family: var(--font-body); font-size: .78rem; font-weight: 500;
+    padding: .45rem 1rem; border-radius: 20px;
+    border: 1.5px solid var(--border); cursor: pointer;
+    background: var(--surface); color: var(--text-muted);
+    transition: all .15s;
   }
-  .node-card {
-    position: absolute;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: .9rem 1rem;
-    min-width: 160px;
-    max-width: 220px;
-    cursor: grab;
-    box-shadow: var(--shadow);
-    user-select: none;
-    transition: box-shadow .15s;
-    z-index: 2;
+  .map-ch-btn:hover { border-color: var(--warm-mid); color: var(--ink); }
+  .map-ch-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .map-concepts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .map-concept-card {
+    background: var(--surface2); border: 1.5px solid var(--border);
+    border-radius: var(--radius); padding: 1rem 1.1rem;
+    cursor: pointer; transition: border-color .2s, box-shadow .2s;
   }
-  .node-card:active { cursor: grabbing; box-shadow: var(--shadow-lg); }
-  .node-card.concept { border-left: 3px solid var(--accent); }
-  .node-card.definition { border-left: 3px solid var(--accent2); }
-  .node-card.example { border-left: 3px solid var(--accent3); }
-  .node-type {
-    font-size: .6rem;
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    color: var(--text-muted);
-    margin-bottom: .3rem;
+  .map-concept-card:hover { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(192,57,43,.08); }
+  .map-concept-card.open { border-color: var(--accent2); background: rgba(44,95,138,.03); }
+  .map-concept-name {
+    font-weight: 600; font-size: .9rem; color: var(--ink);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-body);
   }
-  .node-text {
-    font-size: .85rem;
-    font-weight: 500;
-    color: var(--ink);
-    line-height: 1.4;
+  .map-concept-toggle { font-size: .75rem; color: var(--text-muted); transition: transform .2s; flex-shrink: 0; margin-left: .5rem; }
+  .map-concept-card.open .map-concept-toggle { transform: rotate(180deg); }
+  .map-concept-body { display: none; margin-top: .75rem; padding-top: .7rem; border-top: 1px solid var(--border); }
+  .map-concept-card.open .map-concept-body { display: block; }
+  .map-concept-def { font-size: .82rem; line-height: 1.6; color: var(--ink); }
+  .map-concept-ex {
+    margin-top: .55rem; font-size: .76rem; color: var(--accent);
+    border-left: 2px solid var(--accent); padding-left: .65rem;
+    line-height: 1.5; font-style: italic;
   }
-  .node-desc {
-    font-size: .75rem;
-    color: var(--text-muted);
-    margin-top: .3rem;
-    line-height: 1.4;
-    font-style: italic;
+  .map-concept-rel { margin-top: .5rem; display: flex; flex-wrap: wrap; gap: .3rem; }
+  .map-rel-tag {
+    font-size: .6rem; font-family: var(--font-mono); padding: 2px 7px;
+    border-radius: 10px; border: 1px solid var(--border);
+    color: var(--text-muted); background: var(--surface);
   }
-  .node-del {
-    position: absolute;
-    top: .4rem; right: .4rem;
-    background: none; border: none;
-    color: var(--warm-mid);
-    cursor: pointer;
-    font-size: .75rem;
-    line-height: 1;
-    padding: 2px 5px;
-    border-radius: 4px;
-    transition: color .15s, background .15s;
-  }
-  .node-del:hover { color: var(--accent); background: rgba(192,57,43,.08); }
-
-  .add-node-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
-    gap: .75rem;
-    align-items: end;
-    margin-bottom: 1rem;
-  }
-  @media (max-width: 768px) { .add-node-form { grid-template-columns: 1fr; } }
   .form-group { display: flex; flex-direction: column; gap: .3rem; }
   .form-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-family: var(--font-mono); }
   .form-input, .form-select {
@@ -1097,45 +1066,19 @@
     </div>
   </div>
 
-  <!-- MAPPA NODI LIBERI -->
+  <!-- MAPPA CONCETTI GUIDATA -->
   <div class="card">
-    <div class="card-title">Mappa Concetti Libera</div>
-    <p class="text-muted mb-2">Aggiungi nodi (Concetto → Definizione → Esempio) e trascinali nella mappa</p>
-
-    <div class="add-node-form">
-      <div class="form-group">
-        <label class="form-label">Tipo</label>
-        <select class="form-select" id="node-type">
-          <option value="concept">Concetto</option>
-          <option value="definition">Definizione</option>
-          <option value="example">Esempio</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Nome/Titolo</label>
-        <input type="text" class="form-input" id="node-title" placeholder="es. Semiosi illimitata">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Descrizione</label>
-        <input type="text" class="form-input" id="node-desc" placeholder="es. concatenazione infinita di interpretanti">
-      </div>
-      <button class="btn btn-primary" onclick="addNode()">+ Aggiungi</button>
+    <div class="card-title">Mappa Concettuale del Corso</div>
+    <p class="text-muted mb-2">Esplora i concetti chiave organizzati per capitolo — clicca su una card per vedere definizione ed esempio</p>
+    <div class="map-chapter-tabs" id="mapChapterTabs">
+      <button class="map-ch-btn active" data-ch="1">Cap. 1 — Segni</button>
+      <button class="map-ch-btn" data-ch="2">Cap. 2 — Strutture</button>
+      <button class="map-ch-btn" data-ch="3">Cap. 3 — Narrazione</button>
+      <button class="map-ch-btn" data-ch="4">Cap. 4 — Enunciazione</button>
+      <button class="map-ch-btn" data-ch="5">Cap. 5 — Interpretazione</button>
+      <button class="map-ch-btn" data-ch="6">Cap. 6 — Comunicazione</button>
     </div>
-
-    <div class="nodes-canvas" id="nodesCanvas">
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;" id="canvasEmpty">
-        <div style="text-align:center;color:var(--warm-mid);">
-          <div style="font-size:2rem;margin-bottom:.5rem;">◻</div>
-          <div style="font-size:.8rem;font-family:var(--font-mono);">Aggiungi nodi per iniziare la mappa</div>
-        </div>
-      </div>
-    </div>
-    <div style="display:flex;gap:.75rem;margin-top:.75rem;flex-wrap:wrap;">
-      <span class="tag" style="border-color:var(--accent);color:var(--accent);">■ Concetto</span>
-      <span class="tag" style="border-color:var(--accent2);color:var(--accent2);">■ Definizione</span>
-      <span class="tag" style="border-color:var(--accent3);color:var(--accent3);">■ Esempio</span>
-      <button class="btn btn-danger" style="margin-left:auto;" onclick="clearNodes()">Cancella tutto</button>
-    </div>
+    <div class="map-concepts-grid" id="mapConceptsGrid"></div>
   </div>
 </div>
 </section>
@@ -1167,6 +1110,7 @@
         <button class="fc-filter-btn" data-ch="narrazione">Narrazione</button>
         <button class="fc-filter-btn" data-ch="enunciazione">Enunciazione</button>
         <button class="fc-filter-btn" data-ch="interpretazione">Interpretazione</button>
+        <button class="fc-filter-btn" data-ch="comunicazione">Comunicazione</button>
       </div>
     </div>
 
@@ -1359,30 +1303,6 @@ function switchSubTab(t) {
 // ════════════════════════════════════════
 // §0 — SLIDE & NOTE
 // ════════════════════════════════════════
-const uploadArea = document.getElementById('uploadArea');
-const fileInput = document.getElementById('file-input');
-const filesList = document.getElementById('filesList');
-let uploadedFiles = [];
-
-uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
-uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
-uploadArea.addEventListener('drop', e => {
-  e.preventDefault(); uploadArea.classList.remove('drag-over');
-  handleFiles(e.dataTransfer.files);
-});
-fileInput.addEventListener('change', e => handleFiles(e.target.files));
-
-function handleFiles(files) {
-  [...files].forEach(f => {
-    uploadedFiles.push(f);
-    const item = document.createElement('div');
-    item.className = 'file-item';
-    item.innerHTML = `<span class="file-icon">📄</span><span class="file-name">${f.name}</span><span class="file-size">${(f.size/1024).toFixed(0)} KB</span><button class="file-del" onclick="removeFile('${f.name}',this)">✕</button>`;
-    filesList.appendChild(item);
-  });
-}
-function removeFile(name, btn) { btn.closest('.file-item').remove(); uploadedFiles = uploadedFiles.filter(f => f.name !== name); }
-
 const savedNotesList = [];
 function saveNote() {
   const ch = document.getElementById('noteChapter').value.trim();
@@ -1466,85 +1386,97 @@ function generateQOutput() {
   el.innerHTML = `<strong>Lettura del quadrato:</strong> Il testo articola la categoria semantica <em>"${topic || 'N/D'}"</em> attraverso l'opposizione fondamentale tra <strong>${s1}</strong> (+) e <strong>${s2}</strong> (−). Il termine <strong>${ns2}</strong> (non-S2) implica il rifiuto del secondo polo, mentre <strong>${ns1}</strong> (non-S1) nega il polo positivo. Il <em>focus</em> del testo — la sua risposta ideologica — è: <em>"${focus || 'N/D'}"</em>.`;
 }
 
-// Nodi mappa
-let nodes = [];
-let nodeIdCount = 0;
-let dragEl = null, ox = 0, oy = 0;
+// ════════════════════════════════════════
+// §1b — MAPPA CONCETTUALE GUIDATA
+// ════════════════════════════════════════
+const mapData = {
+  '1': [
+    { name: 'Segno (Saussure)', def: 'Entità mentale biplanare: unisce un significante (immagine acustica/forma) e un significato (concetto). Non è la cosa reale ma la sua rappresentazione nella mente.', ex: '"Cane": il segno non è l\'animale, ma l\'unione mentale di immagine sonora [kane] + concetto di cane.', rel: ['Significante', 'Significato', 'Arbitrarietà'] },
+    { name: 'Significante / Significato', def: 'Le due facce inseparabili del segno saussuriano. Il significante è la forma (immagine acustica). Il significato è il contenuto (concetto). Come due lati di un foglio.', ex: 'Nella parola "albero": [albero] è il significante, il concetto di ALBERO è il significato.', rel: ['Segno', 'Arbitrarietà'] },
+    { name: 'Arbitrarietà del segno', def: 'Nessun legame naturale o motivato esiste tra significante e significato. La relazione è stabilita per convenzione sociale, non per somiglianza né causalità.', ex: 'Il concetto "cane" si chiama [cane] in italiano, [dog] in inglese, [chien] in francese: stessa cosa, forme diverse.', rel: ['Segno', 'Valore differenziale'] },
+    { name: 'Segno / Segnale', def: 'Il segnale provoca una risposta meccanica, automatica (stimolo-risposta). Il segno implica interpretazione, convenzione culturale e un soggetto che lo interpreta.', ex: 'Il campanello di Pavlov è un segnale per il cane. La parola "pericolo" è un segno per l\'essere umano: richiede interpretazione.', rel: ['Segno', 'Icona', 'Indice', 'Simbolo'] },
+    { name: 'Type / Token', def: 'Il type è il segno come entità astratta di classe (nella mente). Il token è la singola occorrenza materiale concreta di quel segno.', ex: 'In "rose is a rose is a rose": 3 type (ROSE, IS, A) ma 10 token — ogni lettera stampata è un token distinto.', rel: ['Segno', 'Saussure vs Peirce'] },
+    { name: 'Icona (Peirce)', def: 'Segno che mantiene una relazione di somiglianza con il referente. Rappresenta qualcosa perché gli assomiglia in qualche proprietà.', ex: 'Una fotografia, una mappa stradale, un ritratto, un\'onomatopea. La rassomiglianza può essere parziale.', rel: ['Indice', 'Simbolo', 'Triade peirceana'] },
+    { name: 'Indice (Peirce)', def: 'Segno legato al referente per contiguità fisica o relazione causale. Indica qualcosa di vicino, connesso, causato.', ex: 'Il fumo lontano indica il fuoco. La febbre indica un\'infezione. La freccia indica una direzione.', rel: ['Icona', 'Simbolo', 'Triade peirceana'] },
+    { name: 'Simbolo (Peirce)', def: 'Segno la cui relazione con il referente è puramente arbitraria e convenzionale. Funziona solo grazie a una norma socialmente condivisa.', ex: 'Le parole del linguaggio verbale. La bandiera di un paese. I segnali stradali non iconici.', rel: ['Icona', 'Indice', 'Arbitrarietà'] },
+    { name: 'Triade peirceana', def: 'Il segno per Peirce è una relazione a tre elementi: Representamen (veicolo materiale del segno) – Oggetto (referente) – Interpretante (il significato/effetto prodotto nell\'interprete).', ex: 'La parola scritta "neve" [Representamen] → NEVE come fenomeno [Oggetto] → idea di freddo/purezza [Interpretante].', rel: ['Semiosi illimitata', 'Icona', 'Indice', 'Simbolo'] }
+  ],
+  '2': [
+    { name: 'Langue / Parole', def: 'La langue è il sistema astratto e collettivo della lingua: il codice condiviso da una comunità. La parole è l\'atto concreto e individuale dell\'uso di quel codice.', ex: 'La grammatica italiana è la langue. Questa frase che stai leggendo ora è una parole.', rel: ['Codice', 'Arbitrarietà', 'Valore differenziale'] },
+    { name: 'Codice', def: 'Sistema di regole convenzionali condivise che associa significanti a significati all\'interno di una comunità. Permette la comunicazione tra i membri.', ex: 'Il codice della strada: rosso=stop, verde=avanti. Funziona perché tutti gli automobilisti lo condividono.', rel: ['Langue', 'Semisimbolismo'] },
+    { name: 'Valore differenziale', def: 'Il valore di un segno non dipende da proprietà intrinseche ma dalla rete di differenze rispetto agli altri segni del sistema. Non esistono valori positivi, solo differenze.', ex: 'Il cavallo negli scacchi vale non per la sua forma equina ma perché si muove in L, diversamente da tutti gli altri pezzi.', rel: ['Arbitrarietà', 'Langue', 'Segno'] },
+    { name: 'Denotazione / Connotazione', def: 'La denotazione è il significato primario, referenziale (il "cosa è"). La connotazione è il significato secondo, culturale: il segno denotativo diventa a sua volta significante di un nuovo contenuto.', ex: 'Colomba → denotazione: femmina del piccione. Connotazione: PACE. Il segno [colomba] diventa il significante del segno [pace].', rel: ['Semisimbolismo', 'Enciclopedia', 'Segno'] },
+    { name: 'Semisimbolismo', def: 'Relazione sistematica tra categorie del piano dell\'espressione e categorie del piano del contenuto. Non singoli segni ma coppie: una coppia di significanti corrisponde a una coppia di significati.', ex: 'Rosso:Verde = Pericolo:Sicurezza (semaforo). Alto:Basso = Potere:Sottomissione (composizione visiva pubblicitaria).', rel: ['Codice', 'Denotazione/Connotazione'] },
+    { name: 'Equisomiglianza', def: 'Relazione tra due espressioni (significanti) diverse che rimandano allo stesso contenuto (significato). Sinonimia funzionale all\'interno di un sistema semiotico.', ex: 'In un testo visivo, figure diverse con lo stesso valore simbolico (es. due modi di raffigurare la morte).', rel: ['Valore differenziale', 'Codice'] }
+  ],
+  '3': [
+    { name: 'Modello Attanziale', def: 'Schema di Greimas con 6 ruoli funzionali astratti (attanti), non coincidenti con i personaggi. Un personaggio può coprire più attanti; un attante può essere coperto da più personaggi.', ex: 'In Shrek: Soggetto=Shrek, Oggetto=palude/amore, Destinante=Farquaad (poi l\'amore), Aiutante=Ciuchino, Opponente=Farquaad.', rel: ['Schema Canonico', 'Percorso Generativo'] },
+    { name: 'Soggetto / Oggetto di Valore', def: 'Il Soggetto è chi compie o subisce la trasformazione narrativa. L\'Oggetto di Valore è ciò che il Soggetto cerca: il motore della narrazione è la mancanza (disgiunzione S ∪ O).', ex: 'Senza mancanza non c\'è narrativa. Ulisse è in disgiunzione da Itaca: vuole tornare. La storia è il tentativo di congiunzione (S ∩ O).', rel: ['Modello Attanziale', 'Schema Canonico'] },
+    { name: 'Destinante / Destinatario', def: 'Il Destinante (mandante) trasmette i valori, stipula il contratto narrativo e sanziona il risultato. Il Destinatario riceve il beneficio dell\'azione del Soggetto.', ex: 'In Cenerentola: la Fata Madrina è Destinante (stabilisce le regole del ballo). Cenerentola è anche Destinataria (beneficia della congiunzione).', rel: ['Modello Attanziale', 'Sanzione'] },
+    { name: 'Schema Canonico Narrativo', def: 'Le 4 fasi della narrazione di Greimas: 1) Manipolazione (il Destinante crea il voler/dover fare), 2) Competenza (il Sogg. acquisisce sapere/potere fare), 3) Performance (l\'azione), 4) Sanzione (il giudizio finale).', ex: 'Cenerentola: 1-il ballo indice il contratto; 2-la fata conferisce poteri; 3-va al ballo; 4-il principe la riconosce dalla scarpetta.', rel: ['Modello Attanziale', 'Destinante'] },
+    { name: 'Quadrato Semiotico', def: 'Struttura logica a 4 termini (S1, S2, non-S1, non-S2) che articola la categoria semantica fondamentale di un testo. Mostra contrarietà, sub-contrarietà e implicazione.', ex: 'Vita(S1) : Morte(S2) : non-Morte(non-S2) : non-Vita(non-S1). Ogni testo può essere ridotto a questa struttura profonda.', rel: ['Percorso Generativo', 'Topic/Focus'] },
+    { name: 'Topic / Focus', def: 'Il topic è l\'argomento (campo semantico, un lessema). Il focus è la risposta ideologica del testo: il valore positivo scelto tra i poli del quadrato e la sua giustificazione.', ex: 'Shrek: Topic = Identità. Focus = "Meglio essere se stessi perché solo così si trova chi ti ama davvero".', rel: ['Quadrato Semiotico', 'Percorso Generativo'] },
+    { name: 'Percorso Generativo', def: 'Il senso si genera da strutture profonde a strutture superficiali: 1) Livello profondo (quadrato semiotico, valori astratti), 2) Narrativo (attanti), 3) Discorsivo (attori, spazio, tempo), 4) Manifestazione.', ex: 'La categoria [Natura vs Cultura] (profondo) → attante Soggetto che vuole il ritorno alla natura (narrativo) → Robinson Crusoe su un\'isola (discorsivo).', rel: ['Quadrato Semiotico', 'Modello Attanziale'] },
+    { name: 'Funzioni di Propp', def: 'Le 31 funzioni narrative costanti e ricorrenti nelle fiabe, indipendenti dai personaggi. I personaggi cambiano, le funzioni rimangono invariate e si susseguono in ordine fisso.', ex: 'Allontanamento, proibizione, violazione, danneggiamento/mancanza… Cenerentola e Cappuccetto Rosso condividono le stesse funzioni con personaggi diversi.', rel: ['Modello Attanziale', 'Schema Canonico'] }
+  ],
+  '4': [
+    { name: 'Enunciazione / Enunciato', def: 'L\'enunciazione è l\'atto del produrre senso (il dire). L\'enunciato è il prodotto di quell\'atto (il detto). L\'enunciazione non lascia quasi tracce nel testo — è una "presupposizione".', ex: '"Piero mangiò una mela ieri" è l\'enunciato. L\'enunciazione è l\'atto con cui qualcuno lo ha prodotto, in un luogo e momento precisi.', rel: ['Débrayage', 'Io-Qui-Ora'] },
+    { name: 'Io-Qui-Ora', def: 'Le coordinate esistenziali dell\'enunciazione: la persona (io), lo spazio (qui) e il tempo (ora) da cui parte ogni atto enunciativo. Tutto il discorso si costruisce in relazione a questi tre assi.', ex: 'Ogni testo presuppone un\'istanza enunciante che dice "io, qui, ora". Anche un romanzo storico scritto in terza persona ha un io-qui-ora implicito.', rel: ['Débrayage', 'Embrayage'] },
+    { name: 'Débrayage', def: 'Operazione con cui il soggetto dell\'enunciazione proietta fuori di sé un "lui/lei", un "altrove" e un "allora". Crea la distanza narrativa tra enunciazione ed enunciato.', ex: '"Marco andò a Roma il giorno dopo": [lui] ≠ io; [Roma] ≠ qui; [il giorno dopo] ≠ ora. Tre débrayages simultanei.', rel: ['Embrayage', 'Io-Qui-Ora', 'Enunciazione'] },
+    { name: 'Embrayage', def: 'Operazione inversa al débrayage: riaggancio dell\'enunciato all\'enunciazione. Riduce la distanza tra narratore e io-qui-ora, creando effetti di presenza e soggettività.', ex: 'Nel romanzo in prima persona, il narratore dice "Io sono qui": embrayage che annulla la distanza. Il discorso diretto nei romanzi è un embrayage parziale.', rel: ['Débrayage', 'Io-Qui-Ora'] },
+    { name: 'Narratore / Narratario', def: 'Il narratore è la voce testuale costruita dall\'autore che racconta la storia. Il narratario è il destinatario implicito del racconto (non il lettore reale, ma quello implicato nel testo).', ex: 'In "Moby Dick" il narratore Ismaele parla al narratario implicito. L\'autore Melville e il lettore reale restano fuori dal testo.', rel: ['Enunciazione', 'Débrayage'] }
+  ],
+  '5': [
+    { name: 'Semiosi illimitata', def: 'Processo per cui l\'interpretante di un segno è a sua volta un segno che genera un nuovo interpretante, in una catena potenzialmente inesauribile. Fermata dall\'abito.', ex: 'Bambino chiede "cos\'è un cucciolo?" → "un animale piccolo" → "cos\'è un animale?" → "un essere vivente" → … La catena non ha fondo logico.', rel: ['Abito', 'Triade peirceana', 'Enciclopedia'] },
+    { name: 'Abito (Habit)', def: 'Interpretazione standardizzata che si consolida quando è sufficiente per raggiungere i propri scopi pratici. Trasforma l\'oggetto dinamico in oggetto immediato. Blocca provvisoriamente la semiosi illimitata.', ex: 'Vediamo la neve e pensiamo subito "freddo": l\'abito fa dimenticare le altre interpretazioni (bellezza, pericolo, gioco). I bambini non hanno ancora l\'abito.', rel: ['Semiosi illimitata', 'Enciclopedia'] },
+    { name: 'Enciclopedia vs Dizionario', def: 'Il dizionario registra solo il significato denotativo e le proprietà necessarie. L\'enciclopedia (Eco) include tutte le conoscenze culturali, contestuali e connotative associate a un segno.', ex: 'Dizionario di "cane": mammifero domestico. Enciclopedia: fedeltà, il cane di Pavlov, "cane" come insulto, le razze, Lassie…', rel: ['Semiosi illimitata', 'Denotazione/Connotazione', 'Lettore Modello'] },
+    { name: 'Abduzione', def: 'Inferenza creativa che ipotizza una regola per spiegare un risultato osservato. Da una regola ipotetica + un risultato → si inferisce il caso. Il processo del detective.', ex: 'Sherlock Holmes vede scarpe con fango giallo: ipotizza la regola "chi viene da X ha scarpe così" → abduce che l\'uomo viene da X.', rel: ['Deduzione', 'Induzione', 'Semiosi illimitata'] },
+    { name: 'Deduzione', def: 'Inferenza necessaria: da una regola generale + un caso specifico si ricava con certezza il risultato. È logicamente garantita se premesse vere.', ex: 'Regola: tutti i fagioli in questa borsa sono bianchi. Caso: questi fagioli vengono da questa borsa. → Risultato: questi fagioli sono bianchi.', rel: ['Abduzione', 'Induzione'] },
+    { name: 'Induzione', def: 'Inferenza probabilistica: dall\'osservazione di più casi particolari + i loro risultati si ricava una regola generale. Non è logicamente necessaria.', ex: 'Osservo 100 cigni bianchi → induco: "tutti i cigni sono bianchi". Basta un cigno nero per falsificarla.', rel: ['Abduzione', 'Deduzione'] },
+    { name: 'Lettore Modello', def: 'Il lettore ideale implicato dal testo: colui che possiede esattamente le competenze linguistiche, enciclopediche e retoriche necessarie per attualizzare tutti i livelli del senso previsti dall\'autore.', ex: 'Un romanzo con citazioni latine non commentate ha un Lettore Modello con conoscenza del latino. I lettori reali possono avvicinarsi o allontanarsi da questo modello.', rel: ['Enciclopedia', 'Autore Modello'] }
+  ],
+  '6': [
+    { name: 'Atti Linguistici', def: 'Teoria di Austin/Searle: ogni enunciato ha tre livelli. Locutorio: l\'atto di produrre suoni/parole. Illocutorio: l\'intenzione comunicativa (promettere, ordinare, dichiarare…). Perlocutorio: l\'effetto sull\'ascoltatore.', ex: '"La finestra è aperta" (locutorio) può essere un ordine di chiuderla (illocutorio) e provocare la chiusura (perlocutorio).', rel: ['Performativi', 'Pragmatica'] },
+    { name: 'Performativi vs Constativi', def: 'I constativi descrivono uno stato di cose (veri o falsi). I performativi non descrivono ma compiono direttamente un\'azione nel momento stesso in cui vengono pronunciati.', ex: '"Dichiaro aperta la seduta" è performativo: la seduta si apre nell\'atto stesso del dirlo. "La porta è chiusa" è costativo.', rel: ['Atti Linguistici', 'Enunciazione'] },
+    { name: 'Pragmatica', def: 'Disciplina che studia il linguaggio in contesto. Analizza come il contesto (situazionale, culturale, relazionale) influenza il significato prodotto e l\'interpretazione dei messaggi.', ex: '"Puoi passarmi il sale?" è pragmaticamente una richiesta, non una domanda sulla capacità fisica. Il contesto determina il senso.', rel: ['Atti Linguistici', 'Contesto'] },
+    { name: 'Modello di Shannon-Weaver', def: 'Schema lineare della comunicazione: Sorgente → Trasmittente → Canale (con Rumore) → Ricevente → Destinazione. Nasce dalla teoria dell\'informazione (ingegneristica), poi applicato alla semiotica.', ex: 'Telefonata: voce (sorgente) → microfono (trasmittente) → rete telefonica con interferenze (canale+rumore) → altoparlante (ricevente) → orecchio (destinazione).', rel: ['Rumore', 'Ridondanza'] },
+    { name: 'Rumore / Ridondanza', def: 'Il rumore è qualsiasi disturbo che altera o degrada il messaggio nel canale (fisico, semantico, culturale). La ridondanza è la ripetizione compensativa che riduce gli effetti del rumore.', ex: 'In una telefonata disturbata, ripetiamo la frase. I sottotitoli in TV sono ridondanza rispetto all\'audio. Il rumore può essere fisico o semantico (incomprensione).', rel: ['Modello Shannon-Weaver', 'Codice'] },
+    { name: 'Contesto / Cotesto', def: 'Il contesto è l\'insieme delle circostanze extralinguistiche (chi parla, dove, quando, perché). Il cotesto è il contesto linguistico interno: il testo che circonda e condiziona un\'espressione.', ex: 'Nel cotesto "aveva una fame da lupo", il termine "lupo" è disambiguato. Nel contesto di una gara di mangiatori, anche "fame" assume un significato diverso.', rel: ['Pragmatica', 'Enciclopedia'] }
+  ]
+};
 
-function addNode() {
-  const type = document.getElementById('node-type').value;
-  const title = document.getElementById('node-title').value.trim();
-  const desc = document.getElementById('node-desc').value.trim();
-  if (!title) return;
-  nodeIdCount++;
-  const x = 20 + Math.random() * 300;
-  const y = 20 + Math.random() * 200;
-  nodes.push({ id: nodeIdCount, type, title, desc, x, y });
-  renderNodes();
-  document.getElementById('node-title').value = '';
-  document.getElementById('node-desc').value = '';
+let activeMapCh = '1';
+document.getElementById('mapChapterTabs').addEventListener('click', e => {
+  const btn = e.target.closest('.map-ch-btn');
+  if (!btn) return;
+  document.querySelectorAll('.map-ch-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeMapCh = btn.dataset.ch;
+  renderMapConcepts();
+});
+
+function renderMapConcepts() {
+  const grid = document.getElementById('mapConceptsGrid');
+  const concepts = mapData[activeMapCh] || [];
+  grid.innerHTML = concepts.map((c, i) => `
+    <div class="map-concept-card" onclick="toggleMapCard(this)">
+      <div class="map-concept-name">
+        <span>${c.name}</span>
+        <span class="map-concept-toggle">▼</span>
+      </div>
+      <div class="map-concept-body">
+        <div class="map-concept-def">${c.def}</div>
+        ${c.ex ? `<div class="map-concept-ex">📌 ${c.ex}</div>` : ''}
+        ${c.rel && c.rel.length ? `<div class="map-concept-rel">${c.rel.map(r => `<span class="map-rel-tag">↔ ${r}</span>`).join('')}</div>` : ''}
+      </div>
+    </div>`).join('');
 }
 
-function renderNodes() {
-  const canvas = document.getElementById('nodesCanvas');
-  document.getElementById('canvasEmpty').style.display = nodes.length ? 'none' : '';
-  canvas.querySelectorAll('.node-card').forEach(n => n.remove());
-  nodes.forEach(n => {
-    const el = document.createElement('div');
-    el.className = `node-card ${n.type}`;
-    el.id = `node-${n.id}`;
-    el.style.left = n.x + 'px';
-    el.style.top = n.y + 'px';
-    el.innerHTML = `<button class="node-del" onclick="removeNode(${n.id})">✕</button><div class="node-type">${n.type}</div><div class="node-text">${n.title}</div>${n.desc ? `<div class="node-desc">${n.desc}</div>` : ''}`;
-    el.addEventListener('mousedown', startDrag);
-    el.addEventListener('touchstart', startDragTouch, { passive: true });
-    canvas.appendChild(el);
-  });
+function toggleMapCard(card) {
+  card.classList.toggle('open');
 }
 
-function startDrag(e) {
-  if (e.target.classList.contains('node-del')) return;
-  dragEl = e.currentTarget;
-  const r = dragEl.getBoundingClientRect();
-  const cr = dragEl.parentElement.getBoundingClientRect();
-  ox = e.clientX - r.left; oy = e.clientY - r.top;
-  dragEl.style.zIndex = 10;
-  document.addEventListener('mousemove', doDrag);
-  document.addEventListener('mouseup', stopDrag);
-}
-function startDragTouch(e) {
-  if (e.target.classList.contains('node-del')) return;
-  dragEl = e.currentTarget;
-  const t = e.touches[0];
-  const r = dragEl.getBoundingClientRect();
-  ox = t.clientX - r.left; oy = t.clientY - r.top;
-  dragEl.style.zIndex = 10;
-  document.addEventListener('touchmove', doDragTouch, { passive: false });
-  document.addEventListener('touchend', stopDrag);
-}
-function doDrag(e) {
-  if (!dragEl) return;
-  const cr = dragEl.parentElement.getBoundingClientRect();
-  dragEl.style.left = Math.max(0, e.clientX - cr.left - ox) + 'px';
-  dragEl.style.top = Math.max(0, e.clientY - cr.top - oy) + 'px';
-}
-function doDragTouch(e) {
-  e.preventDefault();
-  if (!dragEl) return;
-  const t = e.touches[0];
-  const cr = dragEl.parentElement.getBoundingClientRect();
-  dragEl.style.left = Math.max(0, t.clientX - cr.left - ox) + 'px';
-  dragEl.style.top = Math.max(0, t.clientY - cr.top - oy) + 'px';
-}
-function stopDrag() {
-  if (dragEl) { dragEl.style.zIndex = 2; dragEl = null; }
-  document.removeEventListener('mousemove', doDrag);
-  document.removeEventListener('mouseup', stopDrag);
-  document.removeEventListener('touchmove', doDragTouch);
-  document.removeEventListener('touchend', stopDrag);
-}
-function removeNode(id) { nodes = nodes.filter(n => n.id !== id); renderNodes(); }
-function clearNodes() { nodes = []; renderNodes(); }
+renderMapConcepts();
 
 
 // ════════════════════════════════════════
@@ -1562,7 +1494,13 @@ const allFlashcards = [
   { ch: 'narrazione', q: 'Quali sono le quattro fasi dello Schema Canonico Narrativo?', a: '1. Manipolazione (il Destinante crea il voler/dover fare del Soggetto). 2. Competenza (il Soggetto acquisisce un sapere/potere fare). 3. Performance (il Soggetto agisce). 4. Sanzione (il Destinante valuta e riconosce il risultato).', ex: 'In Cenerentola: 1-il ballo impone il contratto; 2-la fata madrina conferisce poteri; 3-Cenerentola va al ballo; 4-il principe la riconosce.' },
   { ch: 'narrazione', q: 'Cosa distingue topic e focus in una storia?', a: 'Il topic è l\'argomento generale (campo semantico — un lessema). Il focus è la posizione ideologica del testo su quel topic: il valore positivo scelto e la causa che lo giustifica.', ex: 'Shrek: Topic = Identità. Focus = "È meglio essere se stessi perché solo così troviamo chi ci ama davvero".' },
   { ch: 'enunciazione', q: 'Cos\'è il débrayage nell\'enunciazione?', a: 'È l\'operazione con cui il soggetto dell\'enunciazione proietta fuori di sé un "lui", un "altrove" e un "allora" — creando la distanza tra enunciato ed enunciazione.', ex: 'Quando scrivo "Marco andò a Roma il giorno dopo", proietto fuori dall\'io-qui-ora un soggetto (lui), uno spazio (Roma) e un tempo (ieri/allora).' },
-  { ch: 'interpretazione', q: 'Cos\'è l\'abito (habit) per Peirce?', a: 'È un\'interpretazione standardizzata che si forma quando un certo livello di conoscenza è sufficiente per raggiungere i propri scopi pratici. Trasforma l\'oggetto dinamico in oggetto immediato.', ex: 'Vediamo la neve e pensiamo subito "freddo": l\'abito ci fa dimenticare tutte le altre interpretazioni possibili (bellezza, pericolo, gioco…).' }
+  { ch: 'interpretazione', q: 'Cos\'è l\'abito (habit) per Peirce?', a: 'È un\'interpretazione standardizzata che si forma quando un certo livello di conoscenza è sufficiente per raggiungere i propri scopi pratici. Trasforma l\'oggetto dinamico in oggetto immediato.', ex: 'Vediamo la neve e pensiamo subito "freddo": l\'abito ci fa dimenticare tutte le altre interpretazioni possibili (bellezza, pericolo, gioco…).' },
+  { ch: 'interpretazione', q: 'Qual è la differenza tra abduzione, deduzione e induzione?', a: 'La deduzione è necessaria (regola+caso→risultato garantito). L\'induzione è probabilistica (caso+risultato→regola generale). L\'abduzione è creativa: da regola+risultato si ipotizza il caso. È il ragionamento del detective.', ex: 'Deduzione: "Tutti i romani muoiono, Cesare è romano → Cesare muore." Abduzione: "Le persone con fango X vengono da Y, questo uomo ha fango X → viene da Y" (Holmes).' },
+  { ch: 'interpretazione', q: 'Cos\'è il Lettore Modello per Umberto Eco?', a: 'Il lettore ideale implicato dal testo: possiede esattamente le competenze linguistiche, enciclopediche e retoriche necessarie per attualizzare tutti i livelli di senso previsti dall\'Autore Modello.', ex: 'Un romanzo con citazioni latine non commentate ha un Lettore Modello che conosce il latino. Il lettore reale può coincidere o meno con questo modello.' },
+  { ch: 'enunciazione', q: 'Cos\'è l\'embrayage nell\'enunciazione?', a: 'L\'operazione inversa al débrayage: riaggancio dell\'enunciato all\'enunciazione. Riduce la distanza tra il testo e l\'io-qui-ora del narratore, creando effetti di presenza, soggettività, prossimità.', ex: 'Il romanzo in prima persona usa l\'embrayage. Il discorso diretto ("disse: «vengo subito»") è un embrayage parziale che avvicina il personaggio al lettore.' },
+  { ch: 'comunicazione', q: 'Quali sono i tre livelli degli atti linguistici secondo Austin?', a: '1) Locutorio: l\'atto fisico di produrre suoni/parole. 2) Illocutorio: l\'intenzione comunicativa (promettere, ordinare, dichiarare). 3) Perlocutorio: l\'effetto concreto sull\'ascoltatore.', ex: '"La finestra è aperta" (locutorio) può essere un ordine implicito di chiuderla (illocutorio) e provocarne la chiusura (perlocutorio).' },
+  { ch: 'comunicazione', q: 'Cosa distingue un enunciato performativo da uno costativo?', a: 'I constativi descrivono uno stato di cose (possono essere veri o falsi). I performativi compiono direttamente un\'azione nel momento in cui vengono pronunciati, non descrivono.', ex: '"Dichiaro aperta la seduta": non descrive ma apre la seduta nell\'atto stesso. "La porta è chiusa" è costativo: si può verificarne la verità.' },
+  { ch: 'comunicazione', q: 'Cosa sono il rumore e la ridondanza nella comunicazione?', a: 'Il rumore è qualsiasi disturbo che altera il messaggio nel canale (fisico, semantico, culturale). La ridondanza è la ripetizione compensativa che riduce l\'effetto del rumore e garantisce la ricezione.', ex: 'In una telefonata disturbata ripetiamo la frase (ridondanza). I sottotitoli televisivi sono ridondanza rispetto all\'audio. Il rumore può essere fisico o semantico.' }
 ];
 
 let filteredCards = [...allFlashcards];
